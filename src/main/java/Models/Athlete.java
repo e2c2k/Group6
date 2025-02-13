@@ -5,13 +5,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-/**
+/**============Documentation ive been using==================
  * Link to Jackson github for documentation https://github.com/FasterXML/jackson/tree/master
  * this is how ive been doing all my JSON parsing / writing
  * some more documentation https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/latest/index.html
  * Object Mapper documention which is used a lot https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-databind/2.3.1/com/fasterxml/jackson/databind/ObjectMapper.html
+ * stream functionality https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html // EXTREAMLY helpful
  */
 
+ /**
+  * TODO: add functionality to be able to search, remove and add athletes based of there name
+  */
 
 // Athlete class
 public class Athlete {
@@ -103,15 +107,16 @@ public class Athlete {
         } catch (IOException e) {
             System.err.println("Error saving to file: " + e.getMessage());
         } finally {
-            removeAthleteById(-1);// fixes a bug that adds an invalid athlete
+            removeAthlete(-1);// fixes a bug that adds an invalid athlete
             writing = false; // i am no longer writing
         }
     }
     /**
      * Removes an athlete from the JSON file based on their athleteId.
+     * TODO: add functionality to remove by other factors such as name
      * @param athleteId The ID of the athlete to remove.
      */
-    public static void removeAthleteById(int athleteId) {
+    public static void removeAthlete(int athleteId) {
         try {
             File file = new File(JSON_FILE);
             List<Athlete> athletes = readAllFromFile();
@@ -136,21 +141,60 @@ public class Athlete {
     }
 
     // Method to read a specific athlete by ID
-    public static Athlete readFromFile(int athleteId) {
+    //Havent testted this yet. no idea if the stream works 
+    public static Athlete searchID(int athleteId) {
         List<Athlete> athletes = readAllFromFile();
         return athletes.stream()
                 .filter(s -> s.getAthleteId() == athleteId)
                 .findFirst()
                 .orElse(null);
     }
-
+    
     /**
-     * 
-     * Trying to fix an issue where when testing is run a new athlete is made
-     * with the same name as the last athlete added, null values and a -1 athlete ID
+     * searches for athletes by given name, surname, or both.
+     * both a given and surname must be passed in even if user only gives 1
+     * @param givenName can be null if the user only gave the surname
+     * @param surname is null if the user only supplied givenName
+     * @return Array of matching athletes
      */
+    private static Athlete[] searchAthletes(String givenName, String surname) {
+        List<Athlete> athletes = readAllFromFile();
+        
+        // Filter athletes based on search criteria
+        List<Athlete> matches = athletes.stream() //.stream and .filter is godsend
+            .filter(athlete -> {
+                boolean matchesGivenName = givenName == null || athlete.getGivenName().equalsIgnoreCase(givenName); 
+                boolean matchesSurname = surname == null || athlete.getSurname().equalsIgnoreCase(surname);
+                
+                // If both are provided, both must match
+                if (givenName != null && surname != null) {
+                    return matchesGivenName && matchesSurname;
+                }
+                // If only one is provided, match that one
+                return matchesGivenName || matchesSurname;
+            })
+            .toList();
+        
+        // going to test this soon
+        return matches.toArray(new Athlete[0]);
+    }
+
+    // different methods on finding athlets by name
+    public static Athlete[] searchAthletesGivenName(String givenName){
+        String surname= null;
+        return searchAthletes(givenName,surname);
+    }
+    public static Athlete[] searchAthletesSurname(String surname){
+        String givenName= null;
+        return searchAthletes(givenName,surname);
+    }
+
     
     
+    /**
+     * Dont belive this actually works at the moment trying to fix it eventually 
+     * @return String representation of the json file aka all the athletes
+     */
     public static String printAthletes(){
         List<Athlete> athletes = readAllFromFile();
         StringBuilder sb = new StringBuilder();

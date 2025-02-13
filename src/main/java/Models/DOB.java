@@ -12,10 +12,10 @@ public class DOB {
         this.year = year;
     }
 
-    // Default constructor for Jackson
+    //constructor for Jackson
     public DOB() {}
 
-    // Accessor methods (getters)
+    // Accessor 
     public String getMonth() {
         return month;
     }
@@ -27,7 +27,7 @@ public class DOB {
     public int getYear() {
         return year;
     }
-
+    // Mutators
     public void setMonth(String month) {
         this.month = month;
     }

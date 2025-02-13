@@ -89,10 +89,10 @@
     "year" : 2004
   }
 }, {
-  "surname" : "Dan",
-  "givenName" : "Peru",
+  "surname" : "daniel",
+  "givenName" : "perue",
   "athleteId" : 100009,
-  "team" : "Chelsey United",
+  "team" : "jamaica",
   "dob" : {
     "month" : "February",
     "day" : 20,
