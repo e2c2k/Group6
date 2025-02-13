@@ -79,10 +79,6 @@
     "year" : 2005
   }
 }, {
-  "surname" : "Bacon",
-  "givenName" : "Olivia",
-  "athleteId" : -1
-}, {
   "surname" : "Johnstone",
   "givenName" : "Logan",
   "athleteId" : 100008,
@@ -90,6 +86,16 @@
   "dob" : {
     "month" : "march",
     "day" : 18,
+    "year" : 2004
+  }
+}, {
+  "surname" : "Dan",
+  "givenName" : "Peru",
+  "athleteId" : 100009,
+  "team" : "Chelsey United",
+  "dob" : {
+    "month" : "February",
+    "day" : 20,
     "year" : 2004
   }
 } ]

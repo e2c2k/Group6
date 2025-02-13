@@ -5,8 +5,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonInclude;
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
+/**
+ * Link to Jackson github for documentation https://github.com/FasterXML/jackson/tree/master
+ * this is how ive been doing all my JSON parsing / writing
+ * some more documentation https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/latest/index.html
+ * Object Mapper documention which is used a lot https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-databind/2.3.1/com/fasterxml/jackson/databind/ObjectMapper.html
+ */
 
 
 // Athlete class
@@ -83,7 +87,6 @@ public class Athlete {
         try {
             File file = new File(JSON_FILE);
 
-            file.getParentFile().mkdirs();
             List<Athlete> athletes = readAllFromFile();
             boolean found = false;
             for (int i = 0; i < athletes.size(); i++) {
@@ -96,14 +99,28 @@ public class Athlete {
             if (!found) {
                 athletes.add(this);
             }
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, athletes);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, athletes); //writing to the json file
         } catch (IOException e) {
             System.err.println("Error saving to file: " + e.getMessage());
         } finally {
+            removeAthleteById(-1);// fixes a bug that adds an invalid athlete
             writing = false; // i am no longer writing
         }
     }
-
+    /**
+     * Removes an athlete from the JSON file based on their athleteId.
+     * @param athleteId The ID of the athlete to remove.
+     */
+    public static void removeAthleteById(int athleteId) {
+        try {
+            File file = new File(JSON_FILE);
+            List<Athlete> athletes = readAllFromFile();
+            athletes.removeIf(athlete -> athlete.getAthleteId() == athleteId);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, athletes); //thank you stack overflow
+        } catch (IOException e) {
+            System.err.println("Error removing athlete from file: " + e.getMessage());
+        }
+    }
     // Method to read all athletes from file
     public static List<Athlete> readAllFromFile() {
         try {
@@ -125,5 +142,22 @@ public class Athlete {
                 .filter(s -> s.getAthleteId() == athleteId)
                 .findFirst()
                 .orElse(null);
+    }
+
+    /**
+     * 
+     * Trying to fix an issue where when testing is run a new athlete is made
+     * with the same name as the last athlete added, null values and a -1 athlete ID
+     */
+    
+    
+    public static String printAthletes(){
+        List<Athlete> athletes = readAllFromFile();
+        StringBuilder sb = new StringBuilder();
+        for (Athlete a:athletes){
+            sb.append("Name: "+a.getGivenName() +" "+a.getSurname()).append("\tTeam: "+a.getTeam()+" ").append("Athlete_ID: "+ a.getAthleteId());
+            sb.append("DOB: "+a.getDob().getMonth()+" "+a.getDob().getDay()+ " "+ a.getDob().getYear()+"\n");
+        }
+        return sb.toString();
     }
 }
