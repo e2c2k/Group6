@@ -45,14 +45,14 @@ public class Testing {
                     // Remove an athlete using ID
                     System.out.print("Enter the ID of the athlete to remove: ");
                     int removeId = scanner.nextInt();
-                    Athlete.removeAthleteById(removeId);
+                    Athlete.removeAthlete(removeId);
                     System.out.println("Athlete with ID " + removeId + " has been removed.");
                     break;
                 case 3:
                     // Find an athlete by ID
                     System.out.print("Enter the ID:  ");
                     int findId = scanner.nextInt();
-                    Athlete foundAthlete = Athlete.readFromFile(findId);
+                    Athlete foundAthlete = Athlete.searchID(findId);
                     if (foundAthlete != null) {
                         System.out.println("Found athlete: " + foundAthlete.getGivenName() + " " + foundAthlete.getSurname());
                     } else {
