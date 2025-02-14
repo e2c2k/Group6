@@ -13,9 +13,18 @@ import java.util.List;
  * stream functionality https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html // EXTREAMLY helpful
  */
 
- /**
-  * TODO: add functionality to be able to search, remove and add athletes based of there name
-  */
+/**TODO:
+ * Look into saveToFile() Might be able to get rid of it // Originally for updating JSON but i found another way to do it that wasnt as buggy
+ * Ill figure something out
+ * GUI Implementation obv but thats in another file probably
+*/
+
+/** Needs Testing:
+ * searchAthletesGivenName(), searchAthletesSurname(), SearchAthletes
+ * removeAthlete(String givenName,String surname) //removing by ID should be working
+ * All of rthe mutators need testing to check if they correctly update the JSON file
+ * printAthletes() needs testing, i think i need to reWrite it. 
+*/
 
 // Athlete class
 public class Athlete {
@@ -36,9 +45,10 @@ public class Athlete {
         this.athleteId = incrementAthleteId();
     }
 
-    //for jackson i think
+    //for the jackson library, dont know why just makes things work
     public Athlete() {
     }
+    //this method allows the auto generation of athlete ID's
     private int incrementAthleteId() {
         List<Athlete> athletes = readAllFromFile();
         int maxId = 100000;
@@ -51,7 +61,7 @@ public class Athlete {
 
     public String getGivenName(){return givenName;}
 
-    public int getAthleteId() {return athleteId;}
+    public int getAthleteId() {return athleteId;}       //Basic Accessors 
 
     public String getTeam() {return team;}
 
@@ -67,7 +77,7 @@ public class Athlete {
         saveToFile();
     }
 
-    public void setAthleteId(int athleteId) {
+    public void setAthleteId(int athleteId) {    //Basic Mutators that i will hopefully make useful later, Not sure if they properly work or not yet
         this.athleteId = athleteId;
         saveToFile();
     }
@@ -82,7 +92,7 @@ public class Athlete {
         saveToFile();
     }
     //============================================================
-    // Method to save current athlete to file
+    // Method to save current athlete to file. I think i made this method obsolete i will need to look into getting rid of it. 
     public void saveToFile() {
         if (writing) {
             return; //adding this fixed an issue that would give me unlimited errors
@@ -126,7 +136,19 @@ public class Athlete {
             System.err.println("Error removing athlete from file: " + e.getMessage());
         }
     }
-    // Method to read all athletes from file
+
+    public static void removeAthlete (String givenName,String surname)throws Exception{
+        Athlete[] matches = searchAthletes(givenName, surname);
+        if (matches.length >1){
+            throw new Exception("1 or more Duplicates found with the same name, Remove by ID");
+        }
+        else if(matches.length<1){
+            throw new Exception("No matches found");   //This method needs to be testes as well
+        }else{
+            removeAthlete(matches[0].getAthleteId());
+        }
+    }
+    //reads all athletes from file then returns a list of them all, needed for properly updating json file
     public static List<Athlete> readAllFromFile() {
         try {
             File file = new File(JSON_FILE);
@@ -160,7 +182,7 @@ public class Athlete {
     private static Athlete[] searchAthletes(String givenName, String surname) {
         List<Athlete> athletes = readAllFromFile();
         
-        // Filter athletes based on search criteria
+        // Filter athletes based on names given
         List<Athlete> matches = athletes.stream() //.stream and .filter is godsend
             .filter(athlete -> {
                 boolean matchesGivenName = givenName == null || athlete.getGivenName().equalsIgnoreCase(givenName); 
