@@ -18,7 +18,9 @@ public class Testing {
             System.out.println("1. Add a new athlete");
             System.out.println("2. Remove an athlete");
             System.out.println("3. Find an athlete by ID");
-            System.out.println("4. Exit");
+            System.out.println("4. Print All Athletes");
+            System.out.println("5.Search and print Athlete or Athletes");
+            System.out.println("6. Exit");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
             scanner.nextLine();
@@ -37,8 +39,7 @@ public class Testing {
                     int day = scanner.nextInt();
                     System.out.print("\nYear: ");
                     int year = scanner.nextInt();
-                    Athlete athlete = new Athlete(surname, givenname, team, new DOB(month, day, year));
-                    athlete.saveToFile();
+                    Athlete.addAthlete(new Athlete(surname, givenname, team, new DOB(month, day, year)));
                     System.out.println("Athlete added successfully.");
                     break;
                 case 2:
@@ -60,13 +61,37 @@ public class Testing {
                     }
                     break;
                 case 4:
+                    System.out.println(Athlete.printAllAthletes());
+                    break;
+                case 5:
+                    int select =0;
+                    while(select !=1 && select !=2){
+                        System.out.println("enter 1 for givenName  ");
+                        System.out.println("Enter 2 for Surname  ");
+                        System.out.print("Enter Choice: ");
+                        select =scanner.nextInt();
+                    }
+                    System.out.print("Enter Name: ");
+                    String name = scanner.next();
+                    switch(select){
+                        case 1:
+                           Athlete[] a = Athlete.searchAthletesGivenName(name);
+                           Athlete.printAthlete(a[0]);
+                        case 2:
+                           Athlete[] b = Athlete.searchAthletesSurname(name);
+                           Athlete.printAthlete(b[0]);
+                    }
+
+                    break;
+                    
+                case 6:
                     // Exit
                     System.out.println("Exiting the program");
                     break;
                 default:
                     System.out.println("Invalid choice. Try again.");
             }
-        } while (choice != 4);
+        } while (choice != 6);
         scanner.close();
     }
 }

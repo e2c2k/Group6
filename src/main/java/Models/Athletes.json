@@ -89,13 +89,23 @@
     "year" : 2004
   }
 }, {
-  "surname" : "daniel",
-  "givenName" : "perue",
+  "surname" : "Perue",
+  "givenName" : "Daniel",
   "athleteId" : 100009,
   "team" : "jamaica",
   "dob" : {
     "month" : "February",
     "day" : 20,
     "year" : 2004
+  }
+}, {
+  "surname" : "Banner",
+  "givenName" : "Bruce",
+  "athleteId" : 100010,
+  "team" : "Justice League",
+  "dob" : {
+    "month" : "January",
+    "day" : 11,
+    "year" : 1997
   }
 } ]

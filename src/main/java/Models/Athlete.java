@@ -28,7 +28,7 @@ import java.util.List;
 
 // Athlete class
 public class Athlete {
-    private static boolean writing = false;
+    private static boolean writing = false; //fixes issues
     private String surname;
     private String givenName;
     private int athleteId =-1;
@@ -93,7 +93,7 @@ public class Athlete {
     }
     //============================================================
     // Method to save current athlete to file. I think i made this method obsolete i will need to look into getting rid of it. 
-    public void saveToFile() {
+    private void saveToFile() {
         if (writing) {
             return; //adding this fixed an issue that would give me unlimited errors
         }
@@ -120,6 +120,11 @@ public class Athlete {
             removeAthlete(-1);// fixes a bug that adds an invalid athlete
             writing = false; // i am no longer writing
         }
+    }
+    /**
+     * Adds athlete to JSON file */ 
+    public static void addAthlete(Athlete a){
+        a.saveToFile();
     }
     /**
      * Removes an athlete from the JSON file based on their athleteId.
@@ -157,7 +162,6 @@ public class Athlete {
                         objectMapper.getTypeFactory().constructCollectionType(List.class, Athlete.class));
             }
         } catch (IOException e) {
-            e.printStackTrace();
         }
         return new ArrayList<>();
     }
@@ -179,7 +183,7 @@ public class Athlete {
      * @param surname is null if the user only supplied givenName
      * @return Array of matching athletes
      */
-    private static Athlete[] searchAthletes(String givenName, String surname) {
+    public static Athlete[] searchAthletes(String givenName, String surname) {
         List<Athlete> athletes = readAllFromFile();
         
         // Filter athletes based on names given
@@ -214,16 +218,29 @@ public class Athlete {
     
     
     /**
-     * Dont belive this actually works at the moment trying to fix it eventually 
-     * @return String representation of the json file aka all the athletes
+     * @param a an Athlete to print
+     * @return String representation of a singular Athlete
      */
-    public static String printAthletes(){
-        List<Athlete> athletes = readAllFromFile();
+    public static String printAthlete(Athlete a){
         StringBuilder sb = new StringBuilder();
-        for (Athlete a:athletes){
-            sb.append("Name: "+a.getGivenName() +" "+a.getSurname()).append("\tTeam: "+a.getTeam()+" ").append("Athlete_ID: "+ a.getAthleteId());
-            sb.append("DOB: "+a.getDob().getMonth()+" "+a.getDob().getDay()+ " "+ a.getDob().getYear()+"\n");
+        sb.append("Name: "+a.getGivenName() +" "+a.getSurname()).append("\tTeam: "+a.getTeam()).append("\tAthlete_ID: "+ a.getAthleteId());
+        sb.append("\tDOB: "+a.getDob().getMonth()+" "+a.getDob().getDay()+ " "+ a.getDob().getYear()+"\n");
+        
+        return sb.toString();
+    }
+    /**
+     * 
+     * @return all athletes
+     */
+    public static String printAllAthletes(){
+        StringBuilder sb = new StringBuilder();
+        List<Athlete> athletes = readAllFromFile();
+
+        for(Athlete a: athletes){
+            sb.append(printAthlete(a));
         }
         return sb.toString();
+
+
     }
 }
