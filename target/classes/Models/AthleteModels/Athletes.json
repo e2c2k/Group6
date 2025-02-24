@@ -89,14 +89,14 @@
     "year" : 2004
   }
 }, {
-  "surname" : "Perue",
-  "givenName" : "Daniel",
-  "athleteId" : 100009,
-  "team" : "jamaica",
+  "surname" : "McMillan",
+  "givenName" : "Tetorioa",
+  "athleteId" : 100008,
+  "team" : "Arizona Wildcats",
   "dob" : {
-    "month" : "February",
-    "day" : 20,
-    "year" : 2004
+    "month" : "march",
+    "day" : 18,
+    "year" : 2002
   }
 }, {
   "surname" : "Banner",
@@ -107,5 +107,15 @@
     "month" : "January",
     "day" : 11,
     "year" : 1997
+  }
+}, {
+  "surname" : "Walker",
+  "givenName" : "John",
+  "athleteId" : 100011,
+  "team" : "Avengers",
+  "dob" : {
+    "month" : "January",
+    "day" : 6,
+    "year" : 2021
   }
 } ]
