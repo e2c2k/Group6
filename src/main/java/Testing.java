@@ -21,8 +21,7 @@ public class Testing {
             System.out.println("2. Remove an athlete");
             System.out.println("3. Find an athlete by ID");
             System.out.println("4. Print All Athletes");
-            System.out.println("5. Search and print Athlete or Athletes");
-            System.out.println("6. Exit");
+            System.out.println("5. Exit");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
             scanner.nextLine();
@@ -65,37 +64,15 @@ public class Testing {
                 case 4:
                     System.out.println(AthleteMethods.printAllAthletes());
                     break;
-                case 5:
-                    int select =0;
-                    while(select !=1 && select !=2){
-                        System.out.println("1. for givenName  ");
-                        System.out.println("2. for Surname  ");
-                        System.out.print("Enter Choice: ");
-                        select =scanner.nextInt();
-                    }
-                    System.out.print("Enter Name: ");
-                    String name = scanner.next();
-                    switch(select){
-                        case 1:
-                           List<Athlete> a = AthleteMethods.searchAthletesGivenName(name);
-                           System.out.println(a.get(0).printAthlete());
-                           break;
-                        case 2:
-                           List<Athlete> b = AthleteMethods.searchAthletesSurname(name);
-                           System.out.println(b.get(0).printAthlete());
-                           break;
-                    }
-
-                    break;
                     
-                case 6:
+                case 5:
                     // Exit
                     System.out.println("Exiting the program");
                     break;
                 default:
                     System.out.println("Invalid choice. Try again.");
             }
-        } while (choice != 6);
+        } while (choice !=5);
         scanner.close();
     }
 }

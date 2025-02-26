@@ -69,17 +69,6 @@ public class AthleteMethods {
         }
     }
 
-    public static void removeAthlete (String givenName,String surname)throws Exception{
-        List<Athlete> matches = searchAthletes(givenName, surname);
-        if (matches.size() >1){
-            throw new Exception("1 or more Duplicates found with the same name, Remove by ID");
-        }
-        else if(matches.size()<1){
-            throw new Exception("No matches found");   //This method needs to be testes as well
-        }else{
-            removeAthlete(matches.get(0).getAthleteId());
-        }
-    }
     //reads all athletes from file then returns a list of them all, needed for properly updating json file
     public static List<Athlete> readAllFromFile() {
         try {
@@ -101,45 +90,6 @@ public class AthleteMethods {
                 .filter(s -> s.getAthleteId() == athleteId)
                 .findFirst()
                 .orElse(null);
-    }
-    
-    /**
-     * searches for athletes by given name, surname, or both.
-     * both a given and surname must be passed in even if user only gives 1
-     * @param givenName can be null if the user only gave the surname
-     * @param surname is null if the user only supplied givenName
-     * @return Array of matching athletes
-     */
-    public static List<Athlete> searchAthletes(String givenName, String surname) {
-        List<Athlete> athletes = readAllFromFile();
-        
-        // Filter athletes based on names given
-        List<Athlete> matches = athletes.stream() //.stream and .filter is godsend
-            .filter(athlete -> {
-                boolean matchesGivenName = givenName == "" || athlete.getGivenName().equalsIgnoreCase(givenName); 
-                boolean matchesSurname = surname == "" || athlete.getSurname().equalsIgnoreCase(surname);
-                
-                // If both are provided, both must match
-                if (givenName != "" && surname != "") {
-                    return matchesGivenName && matchesSurname;
-                }
-                // If only one is provided, match that one
-                return matchesGivenName || matchesSurname;
-            })
-            .toList();
-        
-        // going to test this soon
-        return matches;
-    }
-
-    // different methods on finding athlets by name
-    public static List<Athlete> searchAthletesGivenName(String givenName){
-        String surname= "";
-        return searchAthletes(givenName,surname);
-    }
-    public static List<Athlete> searchAthletesSurname(String surname){
-        String givenName= "";
-        return searchAthletes(givenName,surname);
     }
 
     /**

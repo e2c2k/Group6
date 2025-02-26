@@ -79,14 +79,14 @@
     "year" : 2005
   }
 }, {
-  "surname" : "Johnstone",
-  "givenName" : "Logan",
+  "surname" : "McMillan",
+  "givenName" : "Tetorioa",
   "athleteId" : 100008,
-  "team" : "Truro Feilds",
+  "team" : "Arizona Wildcats",
   "dob" : {
     "month" : "march",
     "day" : 18,
-    "year" : 2004
+    "year" : 2002
   }
 }, {
   "surname" : "McMillan",

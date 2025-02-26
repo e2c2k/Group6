@@ -1,12 +1,9 @@
 package Models.AthleteModels;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import Models.DOB;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
+
 import java.util.List;
 /**============Documentation ive been using==================
  * Link to Jackson github for documentation https://github.com/FasterXML/jackson/tree/master
@@ -17,16 +14,15 @@ import java.util.List;
  */
 
 /**TODO:
- * Look into saveToFile() Might be able to get rid of it // Originally for updating JSON but i found another way to do it that wasnt as buggy
- * Ill figure something out
+ * 
  * GUI Implementation obv but thats in another file probably
 */
 
 /** Needs Testing:
- * searchAthletesGivenName(), searchAthletesSurname(), SearchAthletes
- * removeAthlete(String givenName,String surname) //removing by ID should be working
- * All of rthe mutators need testing to check if they correctly update the JSON file
- * printAthletes() needs testing, i think i need to reWrite it. 
+ * 
+ * 
+ * All of the mutators need testing to check if they correctly update the JSON file
+ * printAthletes() needs testing, i want  to make the output look better
 */
 
 // Athlete class
