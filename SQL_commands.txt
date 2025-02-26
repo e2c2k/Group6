@@ -1,4 +1,4 @@
-SQL notes
+SQL notes // used these to setup the tables
 
 CREATE TABLE Meets (
     meetID INTEGER PRIMARY KEY AUTOINCREMENT,
