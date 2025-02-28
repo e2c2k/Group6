@@ -1,5 +1,0 @@
-2025-02-12 19:55:59,714 [Worker-12: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is not available. Remote download required.
-2025-02-12 19:56:58,785 [ModalContext] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/am/ik/archetype/elm-spring-boot-blank-archetype/0.0.3/elm-spring-boot-blank-archetype-0.0.3.pom
-2025-02-12 19:56:58,848 [ModalContext] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/am/ik/archetype/elm-spring-boot-blank-archetype/0.0.3/elm-spring-boot-blank-archetype-0.0.3.pom
-2025-02-12 19:56:58,934 [ModalContext] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/am/ik/archetype/elm-spring-boot-blank-archetype/0.0.3/elm-spring-boot-blank-archetype-0.0.3.jar
-2025-02-12 19:56:59,157 [ModalContext] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/am/ik/archetype/elm-spring-boot-blank-archetype/0.0.3/elm-spring-boot-blank-archetype-0.0.3.jar
