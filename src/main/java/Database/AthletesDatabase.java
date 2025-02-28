@@ -1,4 +1,6 @@
 package Database;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -92,5 +94,36 @@ public class AthletesDatabase {
         Statement stmt = conn.createStatement();
         stmt.execute(sqlCommand);
         stmt.close();
+    }
+
+    public void AthleteCSV() throws SQLException, IOException {
+        if (conn == null || conn.isClosed()) {
+            throw new SQLException("Database connection is not established. Call connect() first.");
+        }
+
+        String sql = "SELECT * FROM Athletes";
+        try (Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            FileWriter csvWriter = new FileWriter("OutputFiles/athletes.csv")) {
+
+            csvWriter.append("athleteId,surname,givenName,team,dob\n");
+
+            while (rs.next()) {
+                String athleteId = String.valueOf(rs.getInt("athleteId"));
+                String surname = rs.getString("surname");
+                String givenName = rs.getString("givenName");
+                String team = rs.getString("team") != null ? rs.getString("team") : "";
+                String dob = rs.getString("dob") != null ? rs.getString("dob") : "";
+
+                csvWriter.append(String.format("%s,\"%s\",\"%s\",\"%s\",\"%s\"\n",
+                athleteId, escapeCSV(surname), escapeCSV(givenName), escapeCSV(team), escapeCSV(dob)));
+            }
+            System.out.println("Athletes exported to OutputFiles/athletes.csv");
+        }
+    }
+
+    private String escapeCSV(String value) {
+        if (value == null) return "";
+        return value.replace("\"", "\"\""); // Double quotes for CSV compliance
     }
 }
