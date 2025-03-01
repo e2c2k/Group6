@@ -3,7 +3,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -70,8 +69,7 @@ public class AthletesDatabase {
     }
     /**
      * remove by AthleteID
-     * @param surname
-     * @param givenName
+     * @param athleteID
      * @throws SQLException
      */
     public void removeAthlete(int athleteID) throws SQLException {
@@ -84,7 +82,11 @@ public class AthletesDatabase {
         stmt.execute(sqlCommand);
         stmt.close();
     }
-
+    /**
+     * 
+     * @param team
+     * @throws SQLException
+     */
     public void removeAthlete(String team) throws SQLException {
         if (conn == null || conn.isClosed()) {
             throw new SQLException("Database connection is not established. Call connect() first.");
@@ -126,4 +128,6 @@ public class AthletesDatabase {
         if (value == null) return "";
         return value.replace("\"", "\"\""); // Double quotes for CSV compliance
     }
+
+    
 }
