@@ -1,6 +1,9 @@
 package Database;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -23,13 +26,13 @@ public class EntriesDatabase {
         }
     }
 
-    public void addEntry(int entryID,int athleteID ,int heatID,String seedTime) throws SQLException {
+    public void addEntry(int athleteID ,int heatID,double seedTime) throws SQLException {
         if (conn == null || conn.isClosed()) {
             throw new SQLException("Database connection is not established. Call connect() first.");
         }
 
-        String sqlCommand = "INSERT INTO Entries (entryID,heatID,athleteID,seedTime) "+
-                            "VALUES ("+entryID+","+heatID+","+athleteID+","+seedTime+");";
+        String sqlCommand = "INSERT INTO Entries (heatID,athleteID,seedTime) "+
+                            "VALUES ("+heatID+","+athleteID+","+seedTime+");";
         Statement stmt = conn.createStatement();
         stmt.execute(sqlCommand);
         stmt.close();
@@ -63,6 +66,48 @@ public class EntriesDatabase {
         Statement stmt = conn.createStatement();
         stmt.execute(sqlCommand);
         stmt.close();
+    }
+
+    public void entryCSV(){
+        try {
+            // Create statement from existing connection
+            Statement stmt = conn.createStatement();
+
+            String sql = "select * from Entries";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            // Create CSV file
+            FileWriter csvWriter = new FileWriter("OutputFiles/Entries.csv");
+            
+            // Write CSV header
+            csvWriter.append("EntryID,HeatID,athleteID,seedTime\n");
+
+            // Write data rows
+            while (rs.next()) {
+                String entryID = rs.getString("EntryID");
+                String heatID = rs.getString("HeatID");
+                String athleteID = rs.getString("athleteID");
+                String seedTime = rs.getString("seedTime");
+
+                // Write row to CSV
+                csvWriter.append(entryID).append(",");
+                csvWriter.append(heatID).append(",");
+                csvWriter.append(athleteID).append(",");
+                csvWriter.append(seedTime).append("\n");
+            }
+
+            // Clean up resources
+            csvWriter.flush();
+            csvWriter.close();
+            rs.close();
+            stmt.close();
+
+
+        } catch (SQLException e) {
+            System.err.println("database error: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error with  csv file: " + e.getMessage());
+        }
     }
 
 

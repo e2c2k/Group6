@@ -98,35 +98,45 @@ public class AthletesDatabase {
         stmt.close();
     }
 
-    public void AthleteCSV() throws SQLException, IOException {
-        if (conn == null || conn.isClosed()) {
-            throw new SQLException("Database connection is not established. Call connect() first.");
-        }
+    public void athleteCSV(){
+        try {
+            Statement stmt = conn.createStatement();
 
-        String sql = "SELECT * FROM Athletes";
-        try (Statement stmt = conn.createStatement();
+            String sql = "select * from Athletes";
             ResultSet rs = stmt.executeQuery(sql);
-            FileWriter csvWriter = new FileWriter("OutputFiles/athletes.csv")) {
 
-            csvWriter.append("athleteId,surname,givenName,team,dob\n");
+            FileWriter csvWriter = new FileWriter("OutputFiles/athltes.csv");
+            
+            csvWriter.append("AthleteID,Surname,GivenName,Team,DOB\n");
 
             while (rs.next()) {
-                String athleteId = String.valueOf(rs.getInt("athleteId"));
+                String athleteID = rs.getString("athleteID");
                 String surname = rs.getString("surname");
                 String givenName = rs.getString("givenName");
-                String team = rs.getString("team") != null ? rs.getString("team") : "";
-                String dob = rs.getString("dob") != null ? rs.getString("dob") : "";
+                String team = rs.getString("team");
+                String dob = rs.getString("dob");
 
-                csvWriter.append(String.format("%s,\"%s\",\"%s\",\"%s\",\"%s\"\n",
-                athleteId, escapeCSV(surname), escapeCSV(givenName), escapeCSV(team), escapeCSV(dob)));
+
+                // Write row to CSV
+                csvWriter.append(athleteID).append(",");
+                csvWriter.append(surname).append(",");
+                csvWriter.append(givenName).append(",");
+                csvWriter.append(team).append(",");
+                csvWriter.append(dob).append("\n");
+
             }
-            System.out.println("Athletes exported to OutputFiles/athletes.csv");
-        }
-    }
 
-    private String escapeCSV(String value) {
-        if (value == null) return "";
-        return value.replace("\"", "\"\""); // Double quotes for CSV compliance
+            csvWriter.flush();
+            csvWriter.close();
+            rs.close();
+            stmt.close();
+
+
+        } catch (SQLException e) {
+            System.err.println("database error: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error with  csv file: " + e.getMessage());
+        }
     }
 
     
