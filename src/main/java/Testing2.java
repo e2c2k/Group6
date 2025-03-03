@@ -1,13 +1,13 @@
-import Database.AthletesDatabase;
-import Database.EntriesDatabase;
+
+import Database.EventsDatabase;
 
 public class Testing2 {
     public static void main (String[] args){
-        AthletesDatabase db = new AthletesDatabase();
-        EntriesDatabase db2 = new EntriesDatabase();
+        EventsDatabase db = new EventsDatabase();
+        
         try{
             db.connect();
-            db.athleteCSV();
+            db.eventsCSV();
             db.disconnect();
         }catch(Exception e){
             System.out.println("did not work");

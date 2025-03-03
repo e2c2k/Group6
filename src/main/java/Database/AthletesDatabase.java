@@ -1,36 +1,13 @@
 package Database;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 
-public class AthletesDatabase {
-    private Connection conn;
-    private String url = "jdbc:sqlite:Track.db";
-
-    public AthletesDatabase() {
-        
-    }
-
-    // Connect to the database
-    public void connect() throws SQLException {
-        try{
-            conn = DriverManager.getConnection(url);
-        }catch(Exception e){
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-
-    // Disconnect from the database
-    public void disconnect() throws SQLException {
-        if (conn != null && !conn.isClosed()) {
-            conn.close();
-        }
-    }
+public class AthletesDatabase extends DataBase{
+    public AthletesDatabase(){}
 
     /**
      * Add an athlete to the database
@@ -45,10 +22,10 @@ public class AthletesDatabase {
             throw new SQLException("Database connection is not established. Call connect() first.");
         }
 
-        String sqlCommand = "INSERT INTO Athletes (surname,givenName,team,dob) "+
+        String sql = "INSERT INTO Athletes (surname,givenName,team,dob) "+
                             "VALUES ("+surname+","+givenName+","+team+","+dob+");";
         Statement stmt = conn.createStatement();
-        stmt.execute(sqlCommand);
+        stmt.execute(sql);
         stmt.close();
     }
     /**
@@ -62,9 +39,9 @@ public class AthletesDatabase {
             throw new SQLException("Database connection is not established. Call connect() first.");
         }
 
-        String sqlCommand = "DELETE FROM Athletes WHERE surname = " + surname + " AND givenName = " + givenName + ";";
+        String sql = "DELETE FROM Athletes WHERE surname = " + surname + " AND givenName = " + givenName + ";";
         Statement stmt = conn.createStatement();
-        stmt.execute(sqlCommand);
+        stmt.execute(sql);
         stmt.close();
     }
     /**
@@ -77,9 +54,9 @@ public class AthletesDatabase {
             throw new SQLException("Database connection is not established. Call connect() first.");
         }
 
-        String sqlCommand = "DELETE FROM Athletes WHERE athleteID = " + athleteID + ";";
+        String sql = "DELETE FROM Athletes WHERE athleteID = " + athleteID + ";";
         Statement stmt = conn.createStatement();
-        stmt.execute(sqlCommand);
+        stmt.execute(sql);
         stmt.close();
     }
     /**
@@ -92,9 +69,9 @@ public class AthletesDatabase {
             throw new SQLException("Database connection is not established. Call connect() first.");
         }
 
-        String sqlCommand = "DELETE FROM Athletes WHERE team = " + team + ";";
+        String sql = "DELETE FROM Athletes WHERE team = " + team + ";";
         Statement stmt = conn.createStatement();
-        stmt.execute(sqlCommand);
+        stmt.execute(sql);
         stmt.close();
     }
 
