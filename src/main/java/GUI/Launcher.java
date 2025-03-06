@@ -2,6 +2,7 @@ package GUI;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import Authentication.AuthMethods;
 
 public class Launcher {
     public static void main(String[] args){
@@ -15,5 +16,4 @@ public class Launcher {
         loginButton.addActionListener(e -> new LoginFrame().setVisible(true));
         panel.add(loginButton);
     }
-    
 }

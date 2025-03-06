@@ -1,5 +1,8 @@
 .DS_Store
 .vscode/
+<<<<<<< HEAD
 .idea/
+=======
+>>>>>>> spike/json-auth
 target/
 
