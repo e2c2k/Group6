@@ -7,15 +7,17 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.Box;
 import java.awt.Dimension;
 import javax.swing.BoxLayout;
+import java.awt.CardLayout;
+import GUI.views.*;
 
 public class Launcher {
+    private static JPanel contentPanel;
     public static void main(String[] args){
         JFrame frame = new JFrame("Track Meet Manager");
         frame.setLayout(new BorderLayout());
@@ -34,15 +36,28 @@ public class Launcher {
         frame.add(topPanel, BorderLayout.NORTH);
         // main content center panel
         JPanel centerPanel = new JPanel(new BorderLayout());
-        JLabel titleLabel = new JLabel("Track Meet Manager", SwingConstants.CENTER);
+        centerPanel.setBackground(Color.WHITE); 
+        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JLabel titleLabel = new JLabel("Track & Field Meets");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        centerPanel.add(titleLabel, BorderLayout.NORTH);
+        titlePanel.add(titleLabel);
+        centerPanel.add(titlePanel, BorderLayout.NORTH);
+
+        contentPanel = new JPanel(new CardLayout());
+        contentPanel.add(new HomePanel(), "Home");
+        contentPanel.add(new EventsPanel(), "Events");
+        contentPanel.add(new TeamsPanel(), "Teams");
+        contentPanel.add(new ScoresPanel(), "Scores");
+        contentPanel.add(new AthletesPanel(), "Athletes");
+        centerPanel.add(contentPanel, BorderLayout.CENTER);
+        
+        
 
         frame.add(centerPanel);
         
-        //Announcements panel
-        JPanel announcementsPanel = new JPanel();
-        JLabel announcementsLabel = new JLabel("Announcements", SwingConstants.CENTER);
+        // Announcements panel
+        JPanel announcementsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JLabel announcementsLabel = new JLabel("Announcements");
         announcementsLabel.setFont(new Font("Arial", Font.BOLD, 18));
         announcementsPanel.add(announcementsLabel);
         frame.add(announcementsPanel, BorderLayout.SOUTH);
@@ -69,10 +84,22 @@ public class Launcher {
             sidebarPanel.add(button);
             sidebarPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
         }
+
+        homeButton.addActionListener(e -> switchView("Home"));
+        eventsButton.addActionListener(e -> switchView("Events"));
+        teamsButton.addActionListener(e -> switchView("Teams"));
+        scoresButton.addActionListener(e -> switchView("Scores"));
+        reportsButton.addActionListener(e -> switchView("Athletes"));
+
         frame.add(sidebarPanel, BorderLayout.WEST);
 
         frame.setSize(800,600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+    }
+
+    private static void switchView(String viewName){
+        CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
+        cardLayout.show(contentPanel, viewName);
     }
 }
