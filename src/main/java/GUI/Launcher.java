@@ -15,6 +15,9 @@ import java.awt.Dimension;
 import javax.swing.BoxLayout;
 import java.awt.CardLayout;
 import GUI.views.*;
+import GUI.utils.ButtonStyler;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Launcher {
     private static JPanel contentPanel;
@@ -66,6 +69,7 @@ public class Launcher {
         JPanel sidebarPanel = new JPanel();
         sidebarPanel.setLayout(new BoxLayout(sidebarPanel, BoxLayout.Y_AXIS));
         sidebarPanel.setBackground(new Color(45, 45, 45));
+        sidebarPanel.setPreferredSize(new Dimension(200, frame.getHeight()));
 
         //button sidebar
         JButton homeButton = new JButton("Home");
@@ -75,14 +79,28 @@ public class Launcher {
         JButton reportsButton = new JButton("Athletes");
 
         for (JButton button : new JButton[]{homeButton, eventsButton, teamsButton, scoresButton, reportsButton}) {
-            button.setAlignmentX(Component.LEFT_ALIGNMENT);
-            button.setMaximumSize(new Dimension(200, 40));
             button.setBackground(new Color(45, 45, 45));
             button.setForeground(Color.WHITE);
-            button.setBorderPainted(false);
             button.setFocusPainted(false);
+            button.setBorderPainted(false);
+            button.setOpaque(true);
+            
+            button.setAlignmentX(Component.LEFT_ALIGNMENT);
+            button.setPreferredSize(new Dimension(200, 60));
+            button.setMaximumSize(new Dimension(200, 60));
+            
+            // Hover effect
+            button.addMouseListener(new MouseAdapter() {
+                public void mouseEntered(MouseEvent evt) {
+                    button.setBackground(new Color(60, 60, 60));
+                }
+                public void mouseExited(MouseEvent evt) {
+                    button.setBackground(new Color(45, 45, 45));
+                }
+            });
+            
             sidebarPanel.add(button);
-            sidebarPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
+            sidebarPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         }
 
         homeButton.addActionListener(e -> switchView("Home"));
@@ -90,6 +108,9 @@ public class Launcher {
         teamsButton.addActionListener(e -> switchView("Teams"));
         scoresButton.addActionListener(e -> switchView("Scores"));
         reportsButton.addActionListener(e -> switchView("Athletes"));
+
+        // For login button
+        ButtonStyler.styleButton(loginButton);
 
         frame.add(sidebarPanel, BorderLayout.WEST);
 
