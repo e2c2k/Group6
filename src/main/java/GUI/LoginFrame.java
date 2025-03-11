@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import Authentication.AuthMethods;
 import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
+import GUI.utils.ButtonStyler;
 
 public class LoginFrame extends JFrame {
   private JTextField emailField;
@@ -21,7 +22,7 @@ public class LoginFrame extends JFrame {
     setTitle("Meet Official Login");
     setSize(400,200);
     setLocationRelativeTo(null); // centers the frame
-    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  // Just close this window
+    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  
 
     JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
     panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -41,6 +42,8 @@ public class LoginFrame extends JFrame {
 
     add(panel);
     setUpActions();
+    ButtonStyler.styleButton(loginButton);
+    ButtonStyler.styleButton(cancelButton);
   }
   
   private void setUpActions(){
