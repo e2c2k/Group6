@@ -54,7 +54,7 @@ public class Launcher {
         contentPanel.add(new AthletesPanel(), "Athletes");
         centerPanel.add(contentPanel, BorderLayout.CENTER);
         
-        
+    
 
         frame.add(centerPanel);
         
