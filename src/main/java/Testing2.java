@@ -1,5 +1,6 @@
 
 import Database.AthletesDatabase;
+import Database.EntriesDatabase;
 import Database.EventsDatabase;
 import Database.HeatsDataBase;
 import Database.MeetsDatabase;
@@ -7,20 +8,15 @@ import Database.ResultsDataBase;
 
 public class Testing2 {
     public static void main (String[] args){
-        AthletesDatabase db = new AthletesDatabase();
-        MeetsDatabase db2 = new MeetsDatabase();
-        ResultsDataBase db3 = new ResultsDataBase();
+        AthletesDatabase ATH = new AthletesDatabase();
+        MeetsDatabase MEET = new MeetsDatabase();
+        ResultsDataBase RESULT = new ResultsDataBase();
+        HeatsDataBase HEAT = new HeatsDataBase();
+        EventsDatabase EVENT = new EventsDatabase();
+        EntriesDatabase ENTRY = new EntriesDatabase();
         
         try{
-            db.connect();
-            db.athleteCSV();
-            db.disconnect();
-            db2.connect();
-            db2.meetCSV();
-            db2.disconnect();
-            db3.connect();
-            db3.resultCSV();
-            db3.disconnect();
+            //code to test
         }catch(Exception e){
             System.out.println("did not work");
         }
