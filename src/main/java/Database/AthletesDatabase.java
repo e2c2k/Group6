@@ -82,7 +82,7 @@ public class AthletesDatabase extends DataBase{
             String sql = "select * from Athletes";
             ResultSet rs = stmt.executeQuery(sql);
 
-            FileWriter csvWriter = new FileWriter("OutputFiles/athltes.csv");
+            FileWriter csvWriter = new FileWriter("OutputFiles/Athletes.csv");
             
             csvWriter.append("AthleteID,Surname,GivenName,Team,DOB\n");
 

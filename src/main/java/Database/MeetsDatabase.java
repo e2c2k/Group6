@@ -79,7 +79,7 @@ public class MeetsDatabase extends DataBase{
             String sql = "select * from Meets";
             ResultSet rs = stmt.executeQuery(sql);
 
-            FileWriter csvWriter = new FileWriter("OutputFiles/meets.csv");
+            FileWriter csvWriter = new FileWriter("OutputFiles/Meets.csv");
             
             csvWriter.append("MeetID,MeetName,MeetDate\n");
 

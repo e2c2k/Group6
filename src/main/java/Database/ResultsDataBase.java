@@ -56,7 +56,7 @@ public class ResultsDataBase extends DataBase{
             String sql = "select * from results";
             ResultSet rs = stmt.executeQuery(sql);
 
-            FileWriter csvWriter = new FileWriter("OutputFiles/results.csv");
+            FileWriter csvWriter = new FileWriter("OutputFiles/Results.csv");
             
             csvWriter.append("ResultID,EntryID,ActualTime,Place\n");
 
