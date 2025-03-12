@@ -22,6 +22,33 @@ public class ResultsDataBase extends DataBase{
         stmt.close();
     }
 
+    public void removeResult(int resultID)throws SQLException{
+        if (conn == null || conn.isClosed()) {
+            throw new SQLException("Database connection is not established. Call connect() first.");
+        }
+
+        String sql = "DELTE from Results where resultId = "+resultID+";";
+        Statement stmt = conn.createStatement();
+        stmt.execute(sql);
+        stmt.close();
+    }
+    public void removeFromEvent(int meetID)throws SQLException{
+        if (conn == null || conn.isClosed()) {
+            throw new SQLException("Database connection is not established. Call connect() first.");
+        }
+
+        String sql ="DELETE FROM Results" +
+            "WHERE entryid IN (SELECT e.entryid FROM Entries e"+
+            "JOIN Heats h ON e.heatid = h.heatid"+
+            "JOIN Events ev ON h.eventid = ev.eventid"+
+            "JOIN Meets m ON ev.meetid = m.meetid"+
+            "WHERE m.meetid = "+meetID+");";
+
+            Statement stmt = conn.createStatement();
+            stmt.execute(sql);
+            stmt.close();
+    }
+
     public void resultCSV(){
         try {
             Statement stmt = conn.createStatement();
