@@ -78,4 +78,10 @@ public class HeatsDataBase extends DataBase{
             System.err.println("Error with  csv file: " + e.getMessage());
         }
     }
+    public String displayTable()throws SQLException{
+        if (conn == null || conn.isClosed()) {
+            throw new SQLException("Database connection is not established. Call connect() first.");
+        }
+        return super.displayTable("Heats");
+    }
 }

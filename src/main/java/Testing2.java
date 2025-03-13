@@ -17,6 +17,9 @@ public class Testing2 {
         
         try{
             //code to test
+            HEAT.connect();
+            System.out.println(HEAT.displayTable());
+            HEAT.disconnect();
         }catch(Exception e){
             System.out.println("did not work");
         }

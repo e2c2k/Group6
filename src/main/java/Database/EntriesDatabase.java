@@ -87,6 +87,13 @@ public class EntriesDatabase extends DataBase {
         }
     }
 
+    public String displayTable()throws SQLException{
+        if (conn == null || conn.isClosed()) {
+            throw new SQLException("Database connection is not established. Call connect() first.");
+        }
+        return super.displayTable("Entries");
+    }
+
 
 
 }

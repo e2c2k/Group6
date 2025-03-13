@@ -2,8 +2,11 @@ package Database;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AthletesDatabase extends DataBase{
@@ -116,5 +119,10 @@ public class AthletesDatabase extends DataBase{
         }
     }
 
-    
+    public String displayTable()throws SQLException{
+        if (conn == null || conn.isClosed()) {
+            throw new SQLException("Database connection is not established. Call connect() first.");
+        }
+        return super.displayTable("Athletes");
+    }
 }
