@@ -63,7 +63,7 @@ public class HeatsDataBase extends DataBase{
                 // Write row to CSV
                 csvWriter.append(heatID).append(",");
                 csvWriter.append(eventID).append(",");
-                csvWriter.append(HeatNumber).append(",");
+                csvWriter.append(HeatNumber).append("\n");
             }
 
             csvWriter.flush();

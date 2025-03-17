@@ -80,8 +80,9 @@ public class AthletesPanel extends JPanel {
         
         submitButton.addActionListener(e -> {
             try {
-                athletesDatabase.connect();//___________________
+                athletesDatabase.connect();
                 athletesDatabase.addAthlete(surnameField.getText(), givenNameField.getText(), teamField.getText(), dobField.getText());
+                //above method needs to take the .getText and turn it into a string before putting into addAthlete method
                 athletesDatabase.disconnect();
                 JOptionPane.showMessageDialog(this, "Athlete Added Successfully!");
             } catch (SQLException ex) {

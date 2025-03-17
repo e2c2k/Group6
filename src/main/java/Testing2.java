@@ -1,5 +1,6 @@
 
 import Database.AthletesDatabase;
+import Database.DataBase;
 import Database.EntriesDatabase;
 import Database.EventsDatabase;
 import Database.HeatsDataBase;
@@ -18,7 +19,7 @@ public class Testing2 {
         try{
             //code to test
             HEAT.connect();
-            System.out.println(HEAT.displayTable());
+            HEAT.heatsCSV();
             HEAT.disconnect();
         }catch(Exception e){
             System.out.println("did not work");
