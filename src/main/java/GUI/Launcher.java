@@ -9,20 +9,18 @@ import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Color;
-import java.awt.Component;
 import javax.swing.Box;
 import java.awt.Dimension;
 import javax.swing.BoxLayout;
 import java.awt.CardLayout;
 import GUI.views.*;
 import GUI.utils.ButtonStyler;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class Launcher {
-    private static JPanel contentPanel;
+    public static JFrame frame; 
+    public static JPanel contentPanel;
     public static void main(String[] args){
-        JFrame frame = new JFrame("Track Meet Manager");
+        frame = new JFrame("Track Meet Manager");
         frame.setLayout(new BorderLayout());
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         
@@ -79,26 +77,7 @@ public class Launcher {
         JButton reportsButton = new JButton("Athletes");
 
         for (JButton button : new JButton[]{homeButton, eventsButton, teamsButton, scoresButton, reportsButton}) {
-            button.setBackground(new Color(45, 45, 45));
-            button.setForeground(Color.WHITE);
-            button.setFocusPainted(false);
-            button.setBorderPainted(false);
-            button.setOpaque(true);
-            
-            button.setAlignmentX(Component.LEFT_ALIGNMENT);
-            button.setPreferredSize(new Dimension(200, 60));
-            button.setMaximumSize(new Dimension(200, 60));
-            
-            // Hover effect
-            button.addMouseListener(new MouseAdapter() {
-                public void mouseEntered(MouseEvent evt) {
-                    button.setBackground(new Color(60, 60, 60));
-                }
-                public void mouseExited(MouseEvent evt) {
-                    button.setBackground(new Color(45, 45, 45));
-                }
-            });
-            
+            ButtonStyler.styleSidebarButton(button);
             sidebarPanel.add(button);
             sidebarPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         }
