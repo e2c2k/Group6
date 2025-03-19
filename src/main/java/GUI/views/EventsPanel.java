@@ -6,16 +6,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import Database.EventsDatabase;
 import GUI.utils.ButtonStyler;
+import javax.swing.table.DefaultTableModel;
+import Database.EntriesDatabase;
 
 public class EventsPanel extends JPanel {
     private JPanel contentPanel;
     private int meetId;
     private EventsDatabase eventsDB;
+    private JTable entriesTable;
+    private JTable resultsTable;
+    private DefaultTableModel entriesModel;
+    private DefaultTableModel resultsModel;
+    private EntriesDatabase entriesDB;
 
     public EventsPanel(int meetId) {
         this.meetId = meetId;
         setLayout(new BorderLayout());
         eventsDB = new EventsDatabase();
+        entriesDB = new EntriesDatabase();
         
         // Top title
         JLabel eventsLabel = new JLabel("Events");
@@ -40,10 +48,11 @@ public class EventsPanel extends JPanel {
             while(events.next()) {
                 String eventName = events.getString("eventName");
                 String eventType = events.getString("eventType");
+                int eventId = events.getInt("eventId");
                 
                 JButton eventButton = new JButton(eventName + " (" + eventType + ")");
                 ButtonStyler.styleButton(eventButton);
-                eventButton.addActionListener(e -> showEventDetails(eventName));
+                eventButton.addActionListener(e -> showEventDetails(eventName, eventId));
                 contentPanel.add(eventButton);
             }
             eventsDB.disconnect();
@@ -52,7 +61,7 @@ public class EventsPanel extends JPanel {
         }
     }
 
-    private void showEventDetails(String eventName) {
+    private void showEventDetails(String eventName, int eventId) {
         contentPanel.removeAll();
         contentPanel.setLayout(new BorderLayout());
 
@@ -67,17 +76,17 @@ public class EventsPanel extends JPanel {
         // Entries table
         JPanel entriesPanel = new JPanel(new BorderLayout());
         entriesPanel.add(new JLabel("Entries"), BorderLayout.NORTH);
-        String[] entriesColumns = {"Athlete", "Team", "Heat"};
-        Object[][] entriesData = {}; // TODO: Get entries data from database
-        JTable entriesTable = new JTable(entriesData, entriesColumns);
+        String[] entriesColumns = {"Athlete", "Team", "Heat", "Seed Time"};
+        entriesModel = new DefaultTableModel(entriesColumns, 0);
+        entriesTable = new JTable(entriesModel);
         entriesPanel.add(new JScrollPane(entriesTable), BorderLayout.CENTER);
         
         // Results table
         JPanel resultsPanel = new JPanel(new BorderLayout());
         resultsPanel.add(new JLabel("Results"), BorderLayout.NORTH);
         String[] resultsColumns = {"Place", "Athlete", "Team", "Result"};
-        Object[][] resultsData = {}; // TODO: Get results data from database
-        JTable resultsTable = new JTable(resultsData, resultsColumns);
+        resultsModel = new DefaultTableModel(resultsColumns, 0);
+        resultsTable = new JTable(resultsModel);
         resultsPanel.add(new JScrollPane(resultsTable), BorderLayout.CENTER);
         
         tablesPanel.add(entriesPanel);
@@ -86,5 +95,29 @@ public class EventsPanel extends JPanel {
         contentPanel.add(tablesPanel, BorderLayout.CENTER);
         contentPanel.revalidate();
         contentPanel.repaint();
+
+        // Clear and update entries table
+        entriesModel.setRowCount(0);  // Clear existing entries
+        try {
+            entriesDB.connect();
+            ResultSet entries = entriesDB.getEntriesByEventId(eventId);
+            while(entries.next()) {
+                String athlete = entries.getString("surname") + ", " + entries.getString("givenName");
+                String team = entries.getString("team");
+                int heat = entries.getInt("heatId");
+                double seedTime = entries.getDouble("seedTime");
+                String formattedTime = formatTime(seedTime);  // Convert seconds to minutes:seconds:milliseconds
+                entriesModel.addRow(new Object[]{athlete, team, heat, formattedTime});
+            }
+            entriesDB.disconnect();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error loading entries: " + e.getMessage());
+        }
+    }
+
+    private String formatTime(double seconds) {
+        int minutes = (int) (seconds / 60);
+        double remainingSeconds = seconds % 60;
+        return String.format("%d:%05.2f", minutes, remainingSeconds);
     }
 }

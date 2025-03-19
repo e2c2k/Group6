@@ -8,10 +8,8 @@ public class MeetOfficialPanel extends JPanel {
     private JPanel sidebarPanel;
     private CardLayout cardLayout;
     private JPanel contentPanel;
-    private int meetId;
 
-    public MeetOfficialPanel(int meetId) {
-        this.meetId = meetId;
+    public MeetOfficialPanel() {
         setLayout(new BorderLayout());
 
         // Initialize toolbar panel
@@ -25,11 +23,11 @@ public class MeetOfficialPanel extends JPanel {
         JButton addEventsButton = new JButton("Add Events");
         JButton addHeatsButton = new JButton("Add Heats");
         JButton manageAthletesButton = new JButton("Manage Athletes");
-        JButton addEntryToHeatButton = new JButton("Add Entry to Heat");
+        JButton addEntryButton = new JButton("Add Entry");
         JButton addResultsButton = new JButton("Add Results");
 
         // Style and add buttons
-        for (JButton button : new JButton[]{createMeetButton, addEventsButton, addHeatsButton, manageAthletesButton, addEntryToHeatButton, addResultsButton}) {
+        for (JButton button : new JButton[]{createMeetButton, addEventsButton, addHeatsButton, manageAthletesButton, addEntryButton, addResultsButton}) {
             ButtonStyler.styleSidebarButton(button);
             sidebarPanel.add(button);
             sidebarPanel.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -49,7 +47,7 @@ public class MeetOfficialPanel extends JPanel {
         addEventsButton.addActionListener(e -> cardLayout.show(contentPanel, "AddEvents"));
         addHeatsButton.addActionListener(e -> cardLayout.show(contentPanel, "AddHeats"));
         manageAthletesButton.addActionListener(e -> cardLayout.show(contentPanel, "ManageAthletes"));
-        addEntryToHeatButton.addActionListener(e -> cardLayout.show(contentPanel, "AddEntryToHeat"));
+        addEntryButton.addActionListener(e -> cardLayout.show(contentPanel, "AddEntry"));
         addResultsButton.addActionListener(e -> cardLayout.show(contentPanel, "AddResults"));
 
         // Add panels to content panel
@@ -57,8 +55,8 @@ public class MeetOfficialPanel extends JPanel {
         contentPanel.add(new AddEventsPanel(), "AddEvents");
         contentPanel.add(new AddHeatsPanel(), "AddHeats");
         contentPanel.add(new ManageAthletesPanel(), "ManageAthletes");
-        //TODO: Implement these panels
-        // contentPanel.add(new AddEntryToHeatPanel(), "ADD_ENTRY_TO_HEAT");
+        contentPanel.add(new AddEntryPanel(), "AddEntry");
+        //TODO: Implement this panel
         // contentPanel.add(new AddResultsPanel(), "ADD_RESULTS");
     }
 }

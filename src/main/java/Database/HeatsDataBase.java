@@ -2,24 +2,34 @@ package Database;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class HeatsDataBase extends DataBase{
-    public HeatsDataBase(){}
-
-    public void addHeat(int eventID, int heatNum)throws SQLException{
+    public HeatsDataBase() {
+        try {
+            connect();
+            createHeatsTable();  // Create table if it doesn't exist
+            disconnect();
+        } catch (SQLException e) {
+            System.err.println("Error initializing database: " + e.getMessage());
+        }
+    }
+    
+    public void addHeat(int eventID, int heatNum) throws SQLException {
         if (conn == null || conn.isClosed()) {
             throw new SQLException("Database connection is not established. Call connect() first.");
         }
 
-        String sql = "INSERT INTO = Heats (eventId,heatNumber) "+
-                            "VALUES ("+eventID+","+heatNum+");";
-        Statement stmt = conn.createStatement();
-        stmt.execute(sql);
-        stmt.close();
-
+        String sql = "INSERT INTO Heats (eventId, heatNumber) " +
+                    "VALUES (?, ?)";  // Use prepared statement
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, eventID);
+        pstmt.setInt(2, heatNum);
+        pstmt.executeUpdate();
+        pstmt.close();
     }
 
     public void removeHeat(int heatID)throws SQLException{
@@ -83,5 +93,21 @@ public class HeatsDataBase extends DataBase{
             throw new SQLException("Database connection is not established. Call connect() first.");
         }
         return super.displayTable("Heats");
+    }
+     //creates the heats table if it doesn't exist since Track.db isnt in version control.
+     public void createHeatsTable() throws SQLException {
+        if (conn == null || conn.isClosed()) {
+            throw new SQLException("Database connection is not established. Call connect() first.");
+        }
+        
+        String sql = "CREATE TABLE IF NOT EXISTS Heats (" +
+                    "heatId INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "eventId INTEGER," +
+                    "heatNumber INTEGER," +
+                    "FOREIGN KEY(eventId) REFERENCES Events(eventId))";
+                    
+        Statement stmt = conn.createStatement();
+        stmt.execute(sql);
+        stmt.close();
     }
 }

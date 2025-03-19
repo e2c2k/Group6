@@ -61,7 +61,7 @@ public class LoginFrame extends JFrame {
       dispose();  // Close login window
       // Clear the entire frame and add MeetOfficialPanel
       Launcher.frame.getContentPane().removeAll();
-      Launcher.frame.add(new MeetOfficialPanel(0));
+      Launcher.frame.add(new MeetOfficialPanel());
       Launcher.frame.revalidate();
       Launcher.frame.repaint();
     } else {

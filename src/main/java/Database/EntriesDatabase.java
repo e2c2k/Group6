@@ -8,9 +8,17 @@ import java.sql.Statement;
 
 public class EntriesDatabase extends DataBase {
 
-    public EntriesDatabase(){}
+    public EntriesDatabase() {
+        try {
+            connect();
+            createEntriesTable();  // Create table if it doesn't exist
+            disconnect();
+        } catch (SQLException e) {
+            System.err.println("Error initializing database: " + e.getMessage());
+        }
+    }
 
-    public void addEntry(int athleteID, int heatID, double seedTime) throws SQLException {
+    public void addEntry(int athleteID, int heatID, int eventId, double seedTime) throws SQLException {
         if (conn == null || conn.isClosed()) {
             throw new SQLException("Database connection is not established. Call connect() first.");
         }
@@ -26,11 +34,12 @@ public class EntriesDatabase extends DataBase {
         }
 
         // If not full, add the entry
-        String sql = "INSERT INTO Entries (heatID, athleteID, seedTime) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Entries (heatID, athleteID, eventId, seedTime) VALUES (?, ?, ?, ?)";
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setInt(1, heatID);
         pstmt.setInt(2, athleteID);
-        pstmt.setDouble(3, seedTime);
+        pstmt.setInt(3, eventId);
+        pstmt.setDouble(4, seedTime);
         pstmt.executeUpdate();
         pstmt.close();
     }
@@ -117,13 +126,25 @@ public class EntriesDatabase extends DataBase {
                     "entryId INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "athleteId TEXT," +
                     "heatId INTEGER," +
+                    "eventId INTEGER," +
                     "seedTime DOUBLE," +
                     "FOREIGN KEY(athleteId) REFERENCES Athletes(athleteId)," +
-                    "FOREIGN KEY(heatId) REFERENCES Heats(heatId))";
+                    "FOREIGN KEY(heatId) REFERENCES Heats(heatId)," +
+                    "FOREIGN KEY(eventId) REFERENCES Events(eventId))";
                     
         Statement stmt = conn.createStatement();
         stmt.execute(sql);
         stmt.close();
+    }
+
+    public ResultSet getEntriesByEventId(int eventId) throws SQLException {
+        String sql = "SELECT Entries.*, Athletes.surname, Athletes.givenName, Athletes.team " +
+                    "FROM Entries " +
+                    "JOIN Athletes ON Athletes.athleteId = Entries.athleteId " +
+                    "WHERE Entries.eventId = ?";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, eventId);
+        return pstmt.executeQuery();
     }
 
 }
