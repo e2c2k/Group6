@@ -11,6 +11,7 @@ import Authentication.AuthMethods;
 import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
 import GUI.utils.ButtonStyler;
+import GUI.views.MeetOfficialPanel;
 
 public class LoginFrame extends JFrame {
   private JTextField emailField;
@@ -57,10 +58,13 @@ public class LoginFrame extends JFrame {
     String password = new String(passwordChars);
 
     if (AuthMethods.verifyUser(email, password)) {
-      dispose();
-      // TODO: Open main interface with edit permissions
-    }
-    else{
+      dispose();  // Close login window
+      // Clear the entire frame and add MeetOfficialPanel
+      Launcher.frame.getContentPane().removeAll();
+      Launcher.frame.add(new MeetOfficialPanel());
+      Launcher.frame.revalidate();
+      Launcher.frame.repaint();
+    } else {
       JOptionPane.showMessageDialog(this, "Invalid email or password", "Login Failed", JOptionPane.ERROR_MESSAGE);
     }
   }

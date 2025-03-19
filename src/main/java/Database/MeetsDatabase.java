@@ -2,6 +2,7 @@ package Database;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,16 +16,17 @@ public class MeetsDatabase extends DataBase{
      * @param meetDate
      * @throws SQLException
      */
-    public void addMeet(String meetName,String meetDate) throws SQLException {
+    public void addMeet(String meetName, String date) throws SQLException {
         if (conn == null || conn.isClosed()) {
             throw new SQLException("Database connection is not established. Call connect() first.");
         }
 
-        String sql = "INSERT INTO Meets (meetName,meetDate) "+
-                            "VALUES ("+meetName+","+meetDate+");";
-        Statement stmt = conn.createStatement();
-        stmt.execute(sql);
-        stmt.close();
+        String sql = "INSERT INTO Meets (meetName, meetDate) VALUES (?, ?)";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, meetName);
+        pstmt.setString(2, date);
+        pstmt.executeUpdate();
+        pstmt.close();
     }
     /**
      * Remove by meet name
@@ -110,5 +112,15 @@ public class MeetsDatabase extends DataBase{
             throw new SQLException("Database connection is not established. Call connect() first.");
         }
         return super.displayTable("Meets");
+    }
+
+    public ResultSet getAllMeets() throws SQLException {
+        if (conn == null || conn.isClosed()) {
+            throw new SQLException("Database connection is not established. Call connect() first.");
+        }
+        
+        String sql = "SELECT * FROM Meets ORDER BY meetDate";
+        Statement stmt = conn.createStatement();
+        return stmt.executeQuery(sql);
     }
 }

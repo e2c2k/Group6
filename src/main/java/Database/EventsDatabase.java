@@ -2,6 +2,7 @@ package Database;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -9,16 +10,18 @@ import java.sql.Statement;
 public class EventsDatabase extends DataBase{
     public EventsDatabase(){}
     
-    public void addEvent(String eventName ,String eventType,int meetID) throws SQLException {
+    public void addEvent(String eventName, String eventType, int meetID) throws SQLException {
         if (conn == null || conn.isClosed()) {
             throw new SQLException("Database connection is not established. Call connect() first.");
         }
 
-        String sqlCommand = "INSERT INTO Events (eventName,eventType,meetID) "+
-                            "VALUES ("+eventName+","+eventType+","+meetID+");";
-        Statement stmt = conn.createStatement();
-        stmt.execute(sqlCommand);
-        stmt.close();
+        String sql = "INSERT INTO Events (eventName, eventType, meetID) VALUES (?, ?, ?)";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, eventName);
+        pstmt.setString(2, eventType);
+        pstmt.setInt(3, meetID);
+        pstmt.executeUpdate();
+        pstmt.close();
     }
     /**
      * remove by event Name
@@ -111,5 +114,16 @@ public class EventsDatabase extends DataBase{
             throw new SQLException("Database connection is not established. Call connect() first.");
         }
         return super.displayTable("Events");
+    }
+
+    public ResultSet getEventsByMeetId(int meetId) throws SQLException {
+        if (conn == null || conn.isClosed()) {
+            throw new SQLException("Database connection is not established. Call connect() first.");
+        }
+        
+        String sql = "SELECT * FROM Events WHERE meetId = ? ORDER BY eventName";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, meetId);
+        return pstmt.executeQuery();
     }
 }

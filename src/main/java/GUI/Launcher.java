@@ -38,15 +38,9 @@ public class Launcher {
         // main content center panel
         JPanel centerPanel = new JPanel(new BorderLayout());
         centerPanel.setBackground(Color.WHITE); 
-        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JLabel titleLabel = new JLabel("Track & Field Meets");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titlePanel.add(titleLabel);
-        centerPanel.add(titlePanel, BorderLayout.NORTH);
 
         contentPanel = new JPanel(new CardLayout());
         contentPanel.add(new HomePanel(), "Home");
-        contentPanel.add(new EventsPanel(), "Events");
         contentPanel.add(new TeamsPanel(), "Teams");
         contentPanel.add(new ScoresPanel(), "Scores");
         contentPanel.add(new AthletesPanel(), "Athletes");
@@ -89,12 +83,13 @@ public class Launcher {
         reportsButton.addActionListener(e -> switchView("Athletes"));
 
         // For login button
-        ButtonStyler.styleButton(loginButton);
+       // ButtonStyler.styleButton(loginButton);
 
         frame.add(sidebarPanel, BorderLayout.WEST);
 
         frame.setSize(800,600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
