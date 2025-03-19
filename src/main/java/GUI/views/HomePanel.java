@@ -2,6 +2,8 @@ package GUI.views;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import Database.MeetsDatabase;
@@ -47,7 +49,7 @@ public class HomePanel extends JPanel {
                 
                 // Create button with meet name and date
                 JButton meetButton = new JButton(meetName + " - " + meetDate);
-                meetButton.addActionListener(e -> showEventsPanel(meetId));
+                meetButton.addActionListener(e -> showMeetDetails(meetId));
                 ButtonStyler.styleButton(meetButton);
                 meetButton.setAlignmentX(Component.CENTER_ALIGNMENT);
                 meetButton.setMaximumSize(new Dimension(300, 40));
@@ -61,9 +63,10 @@ public class HomePanel extends JPanel {
         }
     }
 
-    private void showEventsPanel(int meetId) {
+    private void showMeetDetails(int meetId) {
         CardLayout cardLayout = (CardLayout) Launcher.contentPanel.getLayout();
-        Launcher.contentPanel.add(new EventsPanel(meetId), "Events");  
-        cardLayout.show(Launcher.contentPanel, "Events"); 
+        Launcher.contentPanel.add(new EventsPanel(meetId), "Events");
+        Launcher.contentPanel.add(new AthletePanel(meetId), "Athletes");
+        cardLayout.show(Launcher.contentPanel, "Events");
     }
 }

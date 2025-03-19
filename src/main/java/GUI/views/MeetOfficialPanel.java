@@ -55,9 +55,9 @@ public class MeetOfficialPanel extends JPanel {
         // Add panels to content panel
         contentPanel.add(new CreateMeetPanel(), "CreateMeet");
         contentPanel.add(new AddEventsPanel(), "AddEvents");
-        // TODO: Implement these panels
-        // contentPanel.add(new AddHeatsPanel(), "ADD_HEATS");
-         contentPanel.add(new ManageAthletesPanel(), "ManageAthletes");
+        contentPanel.add(new AddHeatsPanel(), "AddHeats");
+        contentPanel.add(new ManageAthletesPanel(), "ManageAthletes");
+        //TODO: Implement these panels
         // contentPanel.add(new AddEntryToHeatPanel(), "ADD_ENTRY_TO_HEAT");
         // contentPanel.add(new AddResultsPanel(), "ADD_RESULTS");
     }

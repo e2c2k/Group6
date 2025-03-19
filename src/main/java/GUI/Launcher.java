@@ -41,7 +41,7 @@ public class Launcher {
 
         contentPanel = new JPanel(new CardLayout());
         contentPanel.add(new HomePanel(), "Home");
-        contentPanel.add(new AthletesPanel(), "Athletes");
+        contentPanel.add(new AthletePanel(0), "Athletes");  // Default meetId, update when meet is selected
         centerPanel.add(contentPanel, BorderLayout.CENTER);
         
     

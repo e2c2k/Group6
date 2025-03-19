@@ -148,7 +148,7 @@ public class AthletesDatabase extends DataBase{
         pstmt.setInt(1, meetId);
         return pstmt.executeQuery();
     }
-
+     //creates the athletes table if it doesn't exist since Track.db isnt in version control.
     public void createAthletesTable() throws SQLException {
         if (conn == null || conn.isClosed()) {
             throw new SQLException("Database connection is not established. Call connect() first.");
