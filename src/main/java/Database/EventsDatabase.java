@@ -8,7 +8,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class EventsDatabase extends DataBase{
-    public EventsDatabase(){}
+    public EventsDatabase() {
+        try {
+            connect();
+            createEventsTable();
+            disconnect();
+        } catch (SQLException e) {
+            System.err.println("Error initializing database: " + e.getMessage());
+        }
+    }
     
     public void addEvent(String eventName, String eventType, int meetID) throws SQLException {
         if (conn == null || conn.isClosed()) {
@@ -125,5 +133,22 @@ public class EventsDatabase extends DataBase{
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setInt(1, meetId);
         return pstmt.executeQuery();
+    }
+
+    public void createEventsTable() throws SQLException {
+        if (conn == null || conn.isClosed()) {
+            throw new SQLException("Database connection is not established. Call connect() first.");
+        }
+        
+        String sql = "CREATE TABLE IF NOT EXISTS Events (" +
+                    "eventId INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "eventName TEXT NOT NULL," +
+                    "eventType TEXT NOT NULL," +
+                    "meetId INTEGER NOT NULL," +
+                    "FOREIGN KEY(meetId) REFERENCES Meets(meetId))";
+                    
+        Statement stmt = conn.createStatement();
+        stmt.execute(sql);
+        stmt.close();
     }
 }

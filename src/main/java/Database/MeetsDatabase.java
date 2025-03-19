@@ -8,7 +8,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class MeetsDatabase extends DataBase{
-    public MeetsDatabase(){}
+    public MeetsDatabase() {
+        try {
+            connect();
+            createMeetsTable();
+            disconnect();
+        } catch (SQLException e) {
+            System.err.println("Error initializing database: " + e.getMessage());
+        }
+    }
 
     /**
      * Add an meet to the database
@@ -122,5 +130,20 @@ public class MeetsDatabase extends DataBase{
         String sql = "SELECT * FROM Meets ORDER BY meetDate";
         Statement stmt = conn.createStatement();
         return stmt.executeQuery(sql);
+    }
+
+    public void createMeetsTable() throws SQLException {
+        if (conn == null || conn.isClosed()) {
+            throw new SQLException("Database connection is not established. Call connect() first.");
+        }
+        
+        String sql = "CREATE TABLE IF NOT EXISTS Meets (" +
+                    "meetId INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "meetName TEXT NOT NULL," +
+                    "meetDate TEXT NOT NULL)";
+                    
+        Statement stmt = conn.createStatement();
+        stmt.execute(sql);
+        stmt.close();
     }
 }

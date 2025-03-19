@@ -52,7 +52,7 @@ public class CreateMeetPanel extends JPanel {
     String meetName = meetNameField.getText();
     String date = dateField.getText();
 
-    try {x
+    try{
         meetsDB.connect();
         meetsDB.addMeet(meetName, date);
         JOptionPane.showMessageDialog(this, "Meet created!");
