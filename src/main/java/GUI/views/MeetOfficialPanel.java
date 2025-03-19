@@ -6,9 +6,12 @@ import GUI.utils.ButtonStyler;
 
 public class MeetOfficialPanel extends JPanel {
     private JPanel sidebarPanel;
+    private CardLayout cardLayout;
     private JPanel contentPanel;
+    private int meetId;
 
-    public MeetOfficialPanel() {
+    public MeetOfficialPanel(int meetId) {
+        this.meetId = meetId;
         setLayout(new BorderLayout());
 
         // Initialize toolbar panel
@@ -33,7 +36,8 @@ public class MeetOfficialPanel extends JPanel {
         }
 
         // Initialize content panel
-        contentPanel = new JPanel(new CardLayout());
+        cardLayout = new CardLayout();
+        contentPanel = new JPanel(cardLayout);
         contentPanel.setBackground(Color.WHITE);
 
         // Add panels to main panel
@@ -41,25 +45,20 @@ public class MeetOfficialPanel extends JPanel {
         add(contentPanel, BorderLayout.CENTER);
 
         // Add button actions
-        createMeetButton.addActionListener(e -> showPanel("CREATE_MEET"));
-        addEventsButton.addActionListener(e -> showPanel("ADD_EVENTS"));
-        addHeatsButton.addActionListener(e -> showPanel("ADD_HEATS"));
-        manageAthletesButton.addActionListener(e -> showPanel("MANAGE_ATHLETES"));
-        addEntryToHeatButton.addActionListener(e -> showPanel("ADD_ENTRY_TO_HEAT"));
-        addResultsButton.addActionListener(e -> showPanel("ADD_RESULTS"));
+        createMeetButton.addActionListener(e -> cardLayout.show(contentPanel, "CreateMeet"));
+        addEventsButton.addActionListener(e -> cardLayout.show(contentPanel, "AddEvents"));
+        addHeatsButton.addActionListener(e -> cardLayout.show(contentPanel, "AddHeats"));
+        manageAthletesButton.addActionListener(e -> cardLayout.show(contentPanel, "ManageAthletes"));
+        addEntryToHeatButton.addActionListener(e -> cardLayout.show(contentPanel, "AddEntryToHeat"));
+        addResultsButton.addActionListener(e -> cardLayout.show(contentPanel, "AddResults"));
 
         // Add panels to content panel
-        contentPanel.add(new CreateMeetPanel(), "CREATE_MEET");
-        contentPanel.add(new AddEventsPanel(), "ADD_EVENTS");
+        contentPanel.add(new CreateMeetPanel(), "CreateMeet");
+        contentPanel.add(new AddEventsPanel(), "AddEvents");
         // TODO: Implement these panels
         // contentPanel.add(new AddHeatsPanel(), "ADD_HEATS");
-        // contentPanel.add(new ManageAthletesPanel(), "MANAGE_ATHLETES");
+         contentPanel.add(new ManageAthletesPanel(), "ManageAthletes");
         // contentPanel.add(new AddEntryToHeatPanel(), "ADD_ENTRY_TO_HEAT");
         // contentPanel.add(new AddResultsPanel(), "ADD_RESULTS");
-    }
-
-    private void showPanel(String panelName) {
-        CardLayout cl = (CardLayout) contentPanel.getLayout();
-        cl.show(contentPanel, panelName);
     }
 }

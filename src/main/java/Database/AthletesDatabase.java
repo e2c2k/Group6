@@ -1,6 +1,7 @@
 package Database;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -10,26 +11,41 @@ import java.util.List;
 
 
 public class AthletesDatabase extends DataBase{
-    public AthletesDatabase(){}
+    public AthletesDatabase() {
+        try {
+            connect();
+            createAthletesTable();
+            disconnect();
+        } catch (SQLException e) {
+            System.err.println("Error initializing database: " + e.getMessage());
+        }
+    }
 
     /**
      * Add an athlete to the database
      * @param surname
      * @param givenName
-     * @param team
+     * @param id
      * @param dob
+     * @param team
+     * @param meetId
      * @throws SQLException
      */
-    public void addAthlete(String surname,String givenName ,String team,String dob) throws SQLException {
+    public void addAthlete(String surname, String givenName, String id, String dob, String team, int meetId) throws SQLException {
         if (conn == null || conn.isClosed()) {
             throw new SQLException("Database connection is not established. Call connect() first.");
         }
 
-        String sql = "INSERT INTO Athletes (surname,givenName,team,dob) "+
-                            "VALUES ("+surname+","+givenName+","+team+","+dob+");";
-        Statement stmt = conn.createStatement();
-        stmt.execute(sql);
-        stmt.close();
+        String sql = "INSERT INTO Athletes (surname, givenName, athleteId, dob, team, meetId) VALUES (?, ?, ?, ?, ?, ?)";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, surname);
+        pstmt.setString(2, givenName);
+        pstmt.setString(3, id);
+        pstmt.setString(4, dob);
+        pstmt.setString(5, team);
+        pstmt.setInt(6, meetId);
+        pstmt.executeUpdate();
+        pstmt.close();
     }
     /**
      * Remove by full name
@@ -124,5 +140,31 @@ public class AthletesDatabase extends DataBase{
             throw new SQLException("Database connection is not established. Call connect() first.");
         }
         return super.displayTable("Athletes");
+    }
+    //gets all athletes by meet id
+    public ResultSet getAthletesByMeetId(int meetId) throws SQLException {
+        String sql = "SELECT * FROM Athletes WHERE meetId = ? ORDER BY surname, givenName";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, meetId);
+        return pstmt.executeQuery();
+    }
+
+    public void createAthletesTable() throws SQLException {
+        if (conn == null || conn.isClosed()) {
+            throw new SQLException("Database connection is not established. Call connect() first.");
+        }
+        
+        String sql = "CREATE TABLE IF NOT EXISTS Athletes (" +
+                    "athleteId TEXT PRIMARY KEY," + 
+                    "surname TEXT NOT NULL," +
+                    "givenName TEXT NOT NULL," +
+                    "dob TEXT NOT NULL," +
+                    "team TEXT NOT NULL," +
+                    "meetId INTEGER NOT NULL," +
+                    "FOREIGN KEY(meetId) REFERENCES Meets(meetId))";
+                    
+        Statement stmt = conn.createStatement();
+        stmt.execute(sql);
+        stmt.close();
     }
 }
