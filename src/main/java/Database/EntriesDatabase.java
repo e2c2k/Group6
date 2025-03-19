@@ -107,7 +107,7 @@ public class EntriesDatabase extends DataBase {
         }
         return super.displayTable("Entries");
     }
-    
+     //creates the entries table if it doesn't exist since Track.db isnt in version control.
     public void createEntriesTable() throws SQLException {
         if (conn == null || conn.isClosed()) {
             throw new SQLException("Database connection is not established. Call connect() first.");
