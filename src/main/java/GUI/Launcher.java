@@ -41,8 +41,6 @@ public class Launcher {
 
         contentPanel = new JPanel(new CardLayout());
         contentPanel.add(new HomePanel(), "Home");
-        contentPanel.add(new TeamsPanel(), "Teams");
-        contentPanel.add(new ScoresPanel(), "Scores");
         contentPanel.add(new AthletesPanel(), "Athletes");
         centerPanel.add(contentPanel, BorderLayout.CENTER);
         
@@ -66,11 +64,9 @@ public class Launcher {
         //button sidebar
         JButton homeButton = new JButton("Home");
         JButton eventsButton = new JButton("Events");
-        JButton teamsButton = new JButton("Teams");
-        JButton scoresButton = new JButton("Scores");
         JButton reportsButton = new JButton("Athletes");
 
-        for (JButton button : new JButton[]{homeButton, eventsButton, teamsButton, scoresButton, reportsButton}) {
+        for (JButton button : new JButton[]{homeButton, eventsButton, reportsButton}) {
             ButtonStyler.styleSidebarButton(button);
             sidebarPanel.add(button);
             sidebarPanel.add(Box.createRigidArea(new Dimension(0, 20)));
@@ -78,8 +74,6 @@ public class Launcher {
 
         homeButton.addActionListener(e -> switchView("Home"));
         eventsButton.addActionListener(e -> switchView("Events"));
-        teamsButton.addActionListener(e -> switchView("Teams"));
-        scoresButton.addActionListener(e -> switchView("Scores"));
         reportsButton.addActionListener(e -> switchView("Athletes"));
 
         // For login button
