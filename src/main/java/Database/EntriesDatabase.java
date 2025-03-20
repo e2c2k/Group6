@@ -18,7 +18,7 @@ public class EntriesDatabase extends DataBase {
         }
     }
 
-    public void addEntry(int athleteID, int heatID, int eventId, double seedTime) throws SQLException {
+    public void addEntry(String athleteId, int heatID, int eventId, double seedTime) throws SQLException {
         if (conn == null || conn.isClosed()) {
             throw new SQLException("Database connection is not established. Call connect() first.");
         }
@@ -37,7 +37,7 @@ public class EntriesDatabase extends DataBase {
         String sql = "INSERT INTO Entries (heatID, athleteID, eventId, seedTime) VALUES (?, ?, ?, ?)";
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setInt(1, heatID);
-        pstmt.setInt(2, athleteID);
+        pstmt.setString(2, athleteId);
         pstmt.setInt(3, eventId);
         pstmt.setDouble(4, seedTime);
         pstmt.executeUpdate();

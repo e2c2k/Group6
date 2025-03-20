@@ -62,7 +62,7 @@ public class AddEntryPanel extends JPanel {
 
     private void addEntry() {
         try {
-            int athleteId = Integer.parseInt(athleteIdField.getText());
+            String athleteId = athleteIdField.getText();
             int heatId = Integer.parseInt(heatIdField.getText());
             int eventId = Integer.parseInt(eventIdField.getText());
             double seedTime = Double.parseDouble(seedTimeField.getText());
