@@ -106,12 +106,27 @@ public class EventsPanel extends JPanel {
                 String team = entries.getString("team");
                 int heat = entries.getInt("heatId");
                 double seedTime = entries.getDouble("seedTime");
-                String formattedTime = formatTime(seedTime);  // Convert seconds to minutes:seconds:milliseconds
+                String formattedTime = formatTime(seedTime);
                 entriesModel.addRow(new Object[]{athlete, team, heat, formattedTime});
             }
-            entriesDB.disconnect();
+            
+            // Clear results table
+            resultsModel.setRowCount(0);
+            
+            
+            ResultSet results = entriesDB.getResultsByEventId(eventId);
+            while(results.next()) {
+                int place = results.getInt("place");
+                String athlete = results.getString("surname") + ", " + results.getString("givenName");
+                String team = results.getString("team");
+                double result = results.getDouble("result");
+                String formattedResult = formatTime(result);
+                resultsModel.addRow(new Object[]{place, athlete, team, formattedResult});
+            }
+            
+        entriesDB.disconnect(); 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error loading entries: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error loading data: " + e.getMessage());
         }
     }
 

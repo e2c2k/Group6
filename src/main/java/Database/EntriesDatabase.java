@@ -128,6 +128,8 @@ public class EntriesDatabase extends DataBase {
                     "heatId INTEGER," +
                     "eventId INTEGER," +
                     "seedTime DOUBLE," +
+                    "result DOUBLE," +
+                    "place INTEGER," +
                     "FOREIGN KEY(athleteId) REFERENCES Athletes(athleteId)," +
                     "FOREIGN KEY(heatId) REFERENCES Heats(heatId)," +
                     "FOREIGN KEY(eventId) REFERENCES Events(eventId))";
@@ -145,6 +147,36 @@ public class EntriesDatabase extends DataBase {
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setInt(1, eventId);
         return pstmt.executeQuery();
+    }
+
+    public ResultSet getResultsByEventId(int eventId) throws SQLException {
+        String sql = "SELECT Entries.place, Athletes.surname, Athletes.givenName, Athletes.team, Entries.result " +
+                    "FROM Entries " +
+                    "JOIN Athletes ON Athletes.athleteId = Entries.athleteId " +
+                    "WHERE Entries.eventId = ? AND Entries.place IS NOT NULL " +
+                    "ORDER BY Entries.place ASC";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, eventId);
+        return pstmt.executeQuery();
+    }
+
+    public void updateResult(String athleteId, int eventId, double result, int place) throws SQLException {
+        if (conn == null || conn.isClosed()) {
+            throw new SQLException("Database connection is not established. Call connect() first.");
+        }
+
+        // Update existing entry with new result and place
+        String sql = "UPDATE Entries " +
+                    "SET result = ?, place = ? " +
+                    "WHERE athleteId = ? AND eventId = ?";
+                    
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setDouble(1, result);
+        pstmt.setInt(2, place);
+        pstmt.setString(3, athleteId);
+        pstmt.setInt(4, eventId);
+        pstmt.executeUpdate();
+        pstmt.close();
     }
 
 }
