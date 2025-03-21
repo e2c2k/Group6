@@ -63,6 +63,11 @@ public class AddEntryPanel extends JPanel {
     private void addEntry() {
         try {
             String athleteId = athleteIdField.getText();
+
+            if (!athleteId.matches("\\d{6}")) {
+                JOptionPane.showMessageDialog(this, "ID must be exactly 6 digits");
+                return;
+            }
             int heatId = Integer.parseInt(heatIdField.getText());
             int eventId = Integer.parseInt(eventIdField.getText());
             double seedTime = Double.parseDouble(seedTimeField.getText());
