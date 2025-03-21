@@ -110,4 +110,14 @@ public class HeatsDataBase extends DataBase{
         stmt.execute(sql);
         stmt.close();
     }
+
+    public ResultSet getAllHeats() throws SQLException {
+        if (conn == null || conn.isClosed()) {
+            throw new SQLException("Database connection is not established. Call connect() first.");
+        }
+    
+        String sql = "SELECT * FROM Heats ORDER BY heatNumber";
+        Statement stmt = conn.createStatement();
+        return stmt.executeQuery(sql);
+    }
 }
