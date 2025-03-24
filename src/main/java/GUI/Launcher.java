@@ -1,24 +1,15 @@
 package GUI;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import java.awt.BorderLayout;
-import java.awt.Image;
-import javax.swing.ImageIcon;
-import java.awt.FlowLayout;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Color;
-import javax.swing.Box;
-import java.awt.Dimension;
-import javax.swing.BoxLayout;
-import java.awt.CardLayout;
+
+import javax.swing.*;
+import java.awt.*;
 import GUI.views.*;
 import GUI.utils.ButtonStyler;
 
 public class Launcher {
     public static JFrame frame; 
     public static JPanel contentPanel;
+    private static JPanel announcementsPanel;  // Keep only this field
+    
     public static void main(String[] args){
         frame = new JFrame("Track Meet Manager");
         frame.setLayout(new BorderLayout());
@@ -35,6 +26,7 @@ public class Launcher {
         topPanel.add(loginButton);
         
         frame.add(topPanel, BorderLayout.NORTH);
+        
         // main content center panel
         JPanel centerPanel = new JPanel(new BorderLayout());
         centerPanel.setBackground(Color.WHITE); 
@@ -44,16 +36,20 @@ public class Launcher {
         contentPanel.add(new AthletePanel(0), "Athletes");  // Default meetId, update when meet is selected
         centerPanel.add(contentPanel, BorderLayout.CENTER);
         
-    
-
         frame.add(centerPanel);
-        
-        // Announcements panel
-        JPanel announcementsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JLabel announcementsLabel = new JLabel("Announcements");
+
+        // Simple announcements panel
+        announcementsPanel = new JPanel();
+        announcementsPanel.setLayout(new BoxLayout(announcementsPanel, BoxLayout.Y_AXIS));
+        announcementsPanel.setBackground(Color.WHITE);
+
+        JPanel announcementsContainer = new JPanel(new BorderLayout());
+        JLabel announcementsLabel = new JLabel("Announcements", SwingConstants.CENTER);
         announcementsLabel.setFont(new Font("Arial", Font.BOLD, 18));
-        announcementsPanel.add(announcementsLabel);
-        frame.add(announcementsPanel, BorderLayout.SOUTH);
+        announcementsContainer.add(announcementsLabel, BorderLayout.NORTH);
+        announcementsContainer.add(announcementsPanel, BorderLayout.CENTER);
+
+        frame.add(announcementsContainer, BorderLayout.SOUTH);
 
         // Create sidebar panel
         JPanel sidebarPanel = new JPanel();
@@ -75,9 +71,6 @@ public class Launcher {
         homeButton.addActionListener(e -> switchView("Home"));
         eventsButton.addActionListener(e -> switchView("Events"));
         reportsButton.addActionListener(e -> switchView("Athletes"));
-
-        // For login button
-       // ButtonStyler.styleButton(loginButton);
 
         frame.add(sidebarPanel, BorderLayout.WEST);
 
