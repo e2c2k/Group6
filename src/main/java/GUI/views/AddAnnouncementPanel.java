@@ -29,7 +29,7 @@ public class AddAnnouncementPanel extends JPanel {
         
         add(topPanel, BorderLayout.NORTH);
 
-        // Center panel for message
+        //panel for message
         JPanel centerPanel = new JPanel(new BorderLayout(10, 10));
         centerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
