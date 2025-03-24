@@ -13,6 +13,9 @@ public class ManageAthletesPanel extends JPanel {
     private JTextField dobField;
     private JTextField teamField;
     private JTextField meetIdField;
+    private JTextField emergencyNameField;
+    private JTextField emergencyPhoneField;
+    private JTextField emergencyRelationField;
     private AthletesDatabase athletesDB;
 
     public ManageAthletesPanel() {
@@ -69,9 +72,33 @@ public class ManageAthletesPanel extends JPanel {
         teamField = new JTextField(20);
         add(teamField, constraints);
 
+        // Emergency Contact Name
+        constraints.gridx = 0;
+        constraints.gridy = 6;
+        add(new JLabel("Emergency Contact Name:"), constraints);
+        constraints.gridx = 1;
+        emergencyNameField = new JTextField(20);
+        add(emergencyNameField, constraints);
+
+        // Emergency Contact Phone
+        constraints.gridx = 0;
+        constraints.gridy = 7;
+        add(new JLabel("Emergency Contact Phone:"), constraints);
+        constraints.gridx = 1;
+        emergencyPhoneField = new JTextField(20);
+        add(emergencyPhoneField, constraints);
+
+        // Relation to Athlete
+        constraints.gridx = 0;
+        constraints.gridy = 8;
+        add(new JLabel("Relation to Athlete:"), constraints);
+        constraints.gridx = 1;
+        emergencyRelationField = new JTextField(20);
+        add(emergencyRelationField, constraints);
+
         // Add Button
         constraints.gridx = 1;
-        constraints.gridy = 6;
+        constraints.gridy = 9;
         JButton addButton = new JButton("Add Athlete");
         ButtonStyler.styleButton(addButton);
         addButton.addActionListener(e -> addAthlete());
@@ -85,6 +112,9 @@ public class ManageAthletesPanel extends JPanel {
         String id = idField.getText();
         String dob = dobField.getText();
         String team = teamField.getText();
+        String emergencyName = emergencyNameField.getText();
+        String emergencyPhone = emergencyPhoneField.getText();
+        String emergencyRelation = emergencyRelationField.getText();
 
         // Validate ID is 6 digits
         if (!id.matches("\\d{6}")) {
@@ -94,13 +124,16 @@ public class ManageAthletesPanel extends JPanel {
 
         try {
             athletesDB.connect();
-            athletesDB.addAthlete(surname, givenName, id, dob, team, meetId);
+            athletesDB.addAthlete(surname, givenName, id, dob, team, meetId, emergencyName, emergencyPhone, emergencyRelation);
             JOptionPane.showMessageDialog(this, "Athlete added successfully!");
             surnameField.setText("");
             givenNameField.setText("");
             idField.setText("");
             dobField.setText("");
             teamField.setText("");
+            emergencyNameField.setText("");
+            emergencyPhoneField.setText("");
+            emergencyRelationField.setText("");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error adding athlete: " + e.getMessage());
         } finally {

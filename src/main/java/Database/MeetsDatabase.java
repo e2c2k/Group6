@@ -132,7 +132,7 @@ public class MeetsDatabase extends DataBase{
         return stmt.executeQuery(sql);
     }
 
-    //creates the meets table if it doesn't exist since Track.db isnt in version control.
+    //creates the meets table if it doesn't exist
     public void createMeetsTable() throws SQLException {
         if (conn == null || conn.isClosed()) {
             throw new SQLException("Database connection is not established. Call connect() first.");

@@ -12,14 +12,17 @@ public class MeetOfficialPanel extends JPanel {
     private JPanel sidebarPanel;
     private CardLayout cardLayout;
     private JPanel contentPanel;
+    private int currentMeetId;
 
-    public MeetOfficialPanel() {
+    public MeetOfficialPanel(int meetId) {
+        this.currentMeetId = meetId;
         setLayout(new BorderLayout());
 
         // Add logout button to top
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton logoutButton = new JButton("Logout");
         ButtonStyler.styleButton(logoutButton);
+        //after logout, everything is removed and then needs to be re-added
         logoutButton.addActionListener(e -> {
             
             Launcher.frame.getContentPane().removeAll();
@@ -55,7 +58,7 @@ public class MeetOfficialPanel extends JPanel {
                 sidebarPanel.add(button);
                 sidebarPanel.add(Box.createRigidArea(new Dimension(0, 20)));
             }
-            //need to use CardLayour from Launcher.contentPanel
+            //need to use CardLayout from Launcher.contentPanel
             homeButton.addActionListener(e3 -> ((CardLayout)Launcher.contentPanel.getLayout()).show(Launcher.contentPanel, "Home"));
             eventsButton.addActionListener(e3 -> ((CardLayout)Launcher.contentPanel.getLayout()).show(Launcher.contentPanel, "Events"));
             reportsButton.addActionListener(e3 -> ((CardLayout)Launcher.contentPanel.getLayout()).show(Launcher.contentPanel, "Athletes"));
@@ -88,8 +91,9 @@ public class MeetOfficialPanel extends JPanel {
         JButton manageAthletesButton = new JButton("Manage Athletes");
         JButton addEntryButton = new JButton("Add Entry");
         JButton addResultsButton = new JButton("Add Results");
+        JButton addAnnouncementButton = new JButton("Add Announcement");
 
-        for (JButton button : new JButton[]{createMeetButton, addEventsButton, addHeatsButton, manageAthletesButton, addEntryButton, addResultsButton}) {
+        for (JButton button : new JButton[]{createMeetButton, addEventsButton, addHeatsButton, manageAthletesButton, addEntryButton, addResultsButton, addAnnouncementButton}) {
             ButtonStyler.styleSidebarButton(button);
             sidebarPanel.add(button);
             sidebarPanel.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -102,12 +106,41 @@ public class MeetOfficialPanel extends JPanel {
         add(sidebarPanel, BorderLayout.WEST);
         add(contentPanel, BorderLayout.CENTER);
 
-        createMeetButton.addActionListener(e -> cardLayout.show(contentPanel, "CreateMeet"));
-        addEventsButton.addActionListener(e -> cardLayout.show(contentPanel, "AddEvents"));
-        addHeatsButton.addActionListener(e -> cardLayout.show(contentPanel, "AddHeats"));
-        manageAthletesButton.addActionListener(e -> cardLayout.show(contentPanel, "ManageAthletes"));
-        addEntryButton.addActionListener(e -> cardLayout.show(contentPanel, "AddEntry"));
-        addResultsButton.addActionListener(e -> cardLayout.show(contentPanel, "AddResults"));
+        createMeetButton.addActionListener(e -> {
+            contentPanel.remove(0);  
+            contentPanel.add(new CreateMeetPanel(), "CreateMeet");
+            cardLayout.show(contentPanel, "CreateMeet");
+        });
+        addEventsButton.addActionListener(e -> {
+            contentPanel.remove(1); 
+            contentPanel.add(new AddEventsPanel(), "AddEvents");
+            cardLayout.show(contentPanel, "AddEvents");
+        });
+        addHeatsButton.addActionListener(e -> {
+            contentPanel.remove(2);  
+            contentPanel.add(new AddHeatsPanel(), "AddHeats");
+            cardLayout.show(contentPanel, "AddHeats");
+        });
+        manageAthletesButton.addActionListener(e -> {
+            contentPanel.remove(3);  
+            contentPanel.add(new ManageAthletesPanel(), "ManageAthletes");
+            cardLayout.show(contentPanel, "ManageAthletes");
+        });
+        addEntryButton.addActionListener(e -> {
+            contentPanel.remove(4);  
+            contentPanel.add(new AddEntryPanel(), "AddEntry");
+            cardLayout.show(contentPanel, "AddEntry");
+        });
+        addResultsButton.addActionListener(e -> {
+            contentPanel.remove(5);  
+            contentPanel.add(new AddResultsPanel(), "AddResults");
+            cardLayout.show(contentPanel, "AddResults");
+        });
+        addAnnouncementButton.addActionListener(e -> {
+            contentPanel.remove(6);  // New index for announcements
+            contentPanel.add(new AddAnnouncementPanel(currentMeetId), "AddAnnouncement");
+            cardLayout.show(contentPanel, "AddAnnouncement");
+        });
 
         contentPanel.add(new CreateMeetPanel(), "CreateMeet");
         contentPanel.add(new AddEventsPanel(), "AddEvents");
@@ -115,5 +148,6 @@ public class MeetOfficialPanel extends JPanel {
         contentPanel.add(new ManageAthletesPanel(), "ManageAthletes");
         contentPanel.add(new AddEntryPanel(), "AddEntry");
         contentPanel.add(new AddResultsPanel(), "AddResults");
+        contentPanel.add(new AddAnnouncementPanel(currentMeetId), "AddAnnouncement");
     }
 }

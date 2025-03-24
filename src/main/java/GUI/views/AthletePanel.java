@@ -37,13 +37,29 @@ public class AthletePanel extends JPanel {
             athletesDB.connect();
             ResultSet rs = athletesDB.getAthletesByMeetId(meetId);
             while (rs.next()) {
+                // Get athlete info
                 String name = rs.getString("surname") + ", " + rs.getString("givenName");
                 String id = rs.getString("athleteId");
                 String team = rs.getString("team");
                 
-                JPanel athleteRow = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                // Get emergency contact info
+                String emergency = "Emergency Contact: " + rs.getString("emergencyName") + 
+                                 " (" + rs.getString("emergencyRelation") + ") " +
+                                 "Phone: " + rs.getString("emergencyPhone");
+                
+                JPanel athleteRow = new JPanel();
+                athleteRow.setLayout(new BoxLayout(athleteRow, BoxLayout.Y_AXIS));
+                
+                // First line: Athlete info
                 athleteRow.add(new JLabel(name + " (" + id + ") - " + team));
+                
+                // Second line: Emergency contact
+                JLabel emergencyLabel = new JLabel("    " + emergency);
+                emergencyLabel.setFont(new Font(emergencyLabel.getFont().getName(), Font.ITALIC, 12));
+                athleteRow.add(emergencyLabel);
+                
                 contentPanel.add(athleteRow);
+                contentPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
             }
             athletesDB.disconnect();
         } catch (SQLException e) {

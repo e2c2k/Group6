@@ -25,18 +25,16 @@ public class EventsPanel extends JPanel {
         eventsDB = new EventsDatabase();
         entriesDB = new EntriesDatabase();
         
-        // Top title
+        
         JLabel eventsLabel = new JLabel("Events");
         eventsLabel.setFont(new Font("Arial", Font.BOLD, 24));
         eventsLabel.setHorizontalAlignment(JLabel.CENTER);
         add(eventsLabel, BorderLayout.NORTH);
 
-        // Content panel for showing events
         contentPanel = new JPanel();
         contentPanel.setBackground(Color.WHITE);
         add(contentPanel, BorderLayout.CENTER);
 
-        // Load events for this specific meet
         loadEventsForMeet();
     }
 
@@ -65,12 +63,11 @@ public class EventsPanel extends JPanel {
         contentPanel.removeAll();
         contentPanel.setLayout(new BorderLayout());
 
-        // Event title at top
+        
         JLabel eventTitle = new JLabel(eventName);
         eventTitle.setFont(new Font("Arial", Font.BOLD, 18));
         contentPanel.add(eventTitle, BorderLayout.NORTH);
 
-        // Panel to hold both tables
         JPanel tablesPanel = new JPanel(new GridLayout(2, 1, 0, 10));
         
         // Entries table
@@ -97,7 +94,7 @@ public class EventsPanel extends JPanel {
         contentPanel.repaint();
 
         // Clear and update entries table
-        entriesModel.setRowCount(0);  // Clear existing entries
+        entriesModel.setRowCount(0);
         try {
             entriesDB.connect();
             ResultSet entries = entriesDB.getEntriesByEventId(eventId);

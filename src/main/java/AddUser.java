@@ -2,9 +2,17 @@ import Authentication.AuthMethods;
 
 public class AddUser {
     public static void main(String[] args) {
-        String username = "sam"; 
-        String password = "sam123"; 
-        AuthMethods.addUser(username, password);
-        System.out.println("User added successfully!");
+        
+        AuthMethods.addUser("sam", "sam123");
+        System.out.println("Added user: sam");
+        
+        AuthMethods.addUser("michael", "michael123"); 
+        System.out.println("Added user: michael");
+
+        AuthMethods.addUser("diya", "diya123"); 
+        System.out.println("Added user: diya");
+
+        AuthMethods.addUser("divyanshi", "divyanshi123"); 
+        System.out.println("Added user: divyanshi");
     }
 }

@@ -51,5 +51,14 @@ public class AuthMethods {
     }
   }
 
-  
+  public static void main(String[] args) {
+    // Add test users
+    try {
+      addUser("john", "password123");
+      addUser("mary", "password456");
+      System.out.println("Users added successfully!");
+    } catch (Exception e) {
+      System.err.println("Error adding users: " + e.getMessage());
+    }
+  }
 }

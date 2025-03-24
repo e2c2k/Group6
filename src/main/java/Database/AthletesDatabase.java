@@ -3,11 +3,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+
 
 
 public class AthletesDatabase extends DataBase{
@@ -29,14 +27,17 @@ public class AthletesDatabase extends DataBase{
      * @param dob
      * @param team
      * @param meetId
+     * @param emergencyName
+     * @param emergencyPhone
+     * @param emergencyRelation
      * @throws SQLException
      */
-    public void addAthlete(String surname, String givenName, String id, String dob, String team, int meetId) throws SQLException {
+    public void addAthlete(String surname, String givenName, String id, String dob, String team, int meetId, String emergencyName, String emergencyPhone, String emergencyRelation) throws SQLException {
         if (conn == null || conn.isClosed()) {
             throw new SQLException("Database connection is not established. Call connect() first.");
         }
 
-        String sql = "INSERT INTO Athletes (surname, givenName, athleteId, dob, team, meetId) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Athletes (surname, givenName, athleteId, dob, team, meetId, emergencyName, emergencyPhone, emergencyRelation) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setString(1, surname);
         pstmt.setString(2, givenName);
@@ -44,6 +45,9 @@ public class AthletesDatabase extends DataBase{
         pstmt.setString(4, dob);
         pstmt.setString(5, team);
         pstmt.setInt(6, meetId);
+        pstmt.setString(7, emergencyName);
+        pstmt.setString(8, emergencyPhone);
+        pstmt.setString(9, emergencyRelation);
         pstmt.executeUpdate();
         pstmt.close();
     }
@@ -148,7 +152,7 @@ public class AthletesDatabase extends DataBase{
         pstmt.setInt(1, meetId);
         return pstmt.executeQuery();
     }
-     //creates the athletes table if it doesn't exist since Track.db isnt in version control.
+     //creates the athletes table if it doesn't exist since 
     public void createAthletesTable() throws SQLException {
         if (conn == null || conn.isClosed()) {
             throw new SQLException("Database connection is not established. Call connect() first.");
@@ -161,6 +165,9 @@ public class AthletesDatabase extends DataBase{
                     "dob TEXT NOT NULL," +
                     "team TEXT NOT NULL," +
                     "meetId INTEGER NOT NULL," +
+                    "emergencyName TEXT NOT NULL," +
+                    "emergencyPhone TEXT NOT NULL," +
+                    "emergencyRelation TEXT NOT NULL," +
                     "FOREIGN KEY(meetId) REFERENCES Meets(meetId))";
                     
         Statement stmt = conn.createStatement();

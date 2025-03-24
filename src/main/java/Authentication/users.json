@@ -1,4 +1,18 @@
-{"users": [{
-    "password": "4+n8AzwmR7ebrFT3XQllwHFcaFbmYv0C2odCEA5c2iI=",
-    "username": "sam"
-}]}
+{"users": [
+    {
+        "password": "4+n8AzwmR7ebrFT3XQllwHFcaFbmYv0C2odCEA5c2iI=",
+        "username": "sam"
+    },
+    {
+        "password": "lb+yTeF9KF1zS56qkQm/6SKtyF8g0uXmani920pOvds=",
+        "username": "michael"
+    },
+    {
+        "password": "lAEiueJXTreYYf6lxw9gnpUudMMMI+9QAOd4hktn85U=",
+        "username": "diya"
+    },
+    {
+        "password": "4An3E9j+z5ijBRNxYFHPmLD5sob4vYxcajQKi290hLk=",
+        "username": "divyanshi"
+    }
+]}

@@ -28,7 +28,7 @@ public class LoginFrame extends JFrame {
     JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
     panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-    panel.add(new JLabel("Email:"));
+    panel.add(new JLabel("Username:"));
     emailField = new JTextField();
     panel.add(emailField);
 
@@ -61,7 +61,7 @@ public class LoginFrame extends JFrame {
       dispose();  // Close login window
       // Clear the entire frame and add MeetOfficialPanel
       Launcher.frame.getContentPane().removeAll();
-      Launcher.frame.add(new MeetOfficialPanel());
+      Launcher.frame.add(new MeetOfficialPanel(0));
       Launcher.frame.revalidate();
       Launcher.frame.repaint();
     } else {

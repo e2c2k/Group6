@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import Database.MeetsDatabase;
 import GUI.utils.ButtonStyler;
 import GUI.Launcher;
+import Database.AnnouncementsDatabase;
+
 
 public class HomePanel extends JPanel {
     private JPanel meetsPanel;
@@ -25,13 +27,8 @@ public class HomePanel extends JPanel {
         meetsPanel.setLayout(new BoxLayout(meetsPanel, BoxLayout.Y_AXIS));
         meetsPanel.setBackground(Color.WHITE);
         
-        // Load meets from database
         loadMeets();
-        
-        // Add scrolling if many meets
-        JScrollPane scrollPane = new JScrollPane(meetsPanel);
-        scrollPane.setBorder(null);
-        add(scrollPane, BorderLayout.CENTER);
+        add(meetsPanel, BorderLayout.CENTER);
     }
 
     private void loadMeets() {
@@ -47,7 +44,9 @@ public class HomePanel extends JPanel {
                 
                 // Create button with meet name and date
                 JButton meetButton = new JButton(meetName + " - " + meetDate);
-                meetButton.addActionListener(e -> showMeetDetails(meetId));
+                meetButton.addActionListener(e -> {
+                    showMeetDetails(meetId);
+                });
                 ButtonStyler.styleButton(meetButton);
                 meetButton.setAlignmentX(Component.CENTER_ALIGNMENT);
                 meetButton.setMaximumSize(new Dimension(300, 40));
@@ -65,6 +64,26 @@ public class HomePanel extends JPanel {
         CardLayout cardLayout = (CardLayout) Launcher.contentPanel.getLayout();
         Launcher.contentPanel.add(new EventsPanel(meetId), "Events");
         Launcher.contentPanel.add(new AthletePanel(meetId), "Athletes");
+        
+        // Load announcements for this meet
+        Launcher.announcementsPanel.removeAll();
+        try {
+            AnnouncementsDatabase db = new AnnouncementsDatabase();
+            db.connect();
+            ResultSet rs = db.getAnnouncementsByMeetId(meetId);
+            while (rs.next()) {
+                String message = rs.getString("message");
+                String timestamp = rs.getString("timestamp");
+                JLabel label = new JLabel(timestamp + ": " + message);
+                Launcher.announcementsPanel.add(label);
+            }
+            db.disconnect();
+            Launcher.announcementsPanel.revalidate();
+            Launcher.announcementsPanel.repaint();
+        } catch (SQLException e) {
+            System.err.println("Error loading announcements: " + e.getMessage());
+        }
+        
         cardLayout.show(Launcher.contentPanel, "Events");
     }
 }

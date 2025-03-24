@@ -94,7 +94,7 @@ public class HeatsDataBase extends DataBase{
         }
         return super.displayTable("Heats");
     }
-     //creates the heats table if it doesn't exist since Track.db isnt in version control.
+     //creates the heats table if it doesn't exist
      public void createHeatsTable() throws SQLException {
         if (conn == null || conn.isClosed()) {
             throw new SQLException("Database connection is not established. Call connect() first.");

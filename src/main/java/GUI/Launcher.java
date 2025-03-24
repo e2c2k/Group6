@@ -8,7 +8,7 @@ import GUI.utils.ButtonStyler;
 public class Launcher {
     public static JFrame frame; 
     public static JPanel contentPanel;
-    private static JPanel announcementsPanel;  // Keep only this field
+    public static JPanel announcementsPanel; 
     
     public static void main(String[] args){
         frame = new JFrame("Track Meet Manager");
@@ -38,7 +38,6 @@ public class Launcher {
         
         frame.add(centerPanel);
 
-        // Simple announcements panel
         announcementsPanel = new JPanel();
         announcementsPanel.setLayout(new BoxLayout(announcementsPanel, BoxLayout.Y_AXIS));
         announcementsPanel.setBackground(Color.WHITE);
@@ -84,4 +83,5 @@ public class Launcher {
         CardLayout cardLayout = (CardLayout) contentPanel.getLayout();
         cardLayout.show(contentPanel, viewName);
     }
+
 }

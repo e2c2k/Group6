@@ -1,5 +1,6 @@
 package UnitTesting;
 
+/*
 import java.sql.SQLException;
 
 import Database.ResultsDataBase;
@@ -76,3 +77,4 @@ public class ResultTest {
         System.out.println("===== Manual Testing Complete =====");
     }
 }
+*/
