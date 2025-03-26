@@ -90,11 +90,19 @@ public class EntriesDatabase extends DataBase {
                 String heatID = rs.getString("HeatID");
                 String athleteID = rs.getString("athleteID");
                 String seedTime = rs.getString("seedTime");
+                String eventID = rs.getString("eventId");
+                String result = rs.getString("result");
+                String place = rs.getString("place");
+
 
                 csvWriter.append(entryID).append(",");
-                csvWriter.append(heatID).append(",");
                 csvWriter.append(athleteID).append(",");
-                csvWriter.append(seedTime).append("\n");
+                csvWriter.append(heatID).append(",");
+                csvWriter.append(eventID).append(",");
+                csvWriter.append(seedTime).append(",");
+                csvWriter.append(result).append(",");
+                csvWriter.append(place).append("\n");
+
             }
 
             csvWriter.flush();

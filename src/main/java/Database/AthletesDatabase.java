@@ -115,14 +115,23 @@ public class AthletesDatabase extends DataBase{
                 String givenName = rs.getString("givenName");
                 String team = rs.getString("team");
                 String dob = rs.getString("dob");
-
+                String meetID = rs.getString("meetId");
+                String emergName = rs.getString("emergencyName");
+                String emergePhone = rs.getString("emergencyPhone");
+                String emergeRel = rs.getString("emergencyRelation");
 
                 // Write row to CSV
                 csvWriter.append(athleteID).append(",");
                 csvWriter.append(surname).append(",");
                 csvWriter.append(givenName).append(",");
                 csvWriter.append(team).append(",");
-                csvWriter.append(dob).append("\n");
+                csvWriter.append(dob).append(",");
+                csvWriter.append(meetID).append(",");
+                csvWriter.append(emergName).append(",");
+                csvWriter.append(emergePhone).append(",");
+                csvWriter.append(emergeRel).append("\n");
+
+
 
             }
 
