@@ -24,6 +24,8 @@ public class MeetOfficialPanel extends JPanel {
         ButtonStyler.styleButton(logoutButton);
         //after logout, everything is removed and then needs to be re-added
         logoutButton.addActionListener(e -> {
+            // refresh data
+            Launcher.refreshAfterLogout();
             
             Launcher.frame.getContentPane().removeAll();
             

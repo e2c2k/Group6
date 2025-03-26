@@ -33,7 +33,7 @@ public class Launcher {
 
         contentPanel = new JPanel(new CardLayout());
         contentPanel.add(new HomePanel(), "Home");
-        contentPanel.add(new AthletePanel(0), "Athletes");  // Default meetId, update when meet is selected
+        contentPanel.add(new AthletePanel(0), "Athletes");  
         centerPanel.add(contentPanel, BorderLayout.CENTER);
         
         frame.add(centerPanel);
@@ -84,4 +84,19 @@ public class Launcher {
         cardLayout.show(contentPanel, viewName);
     }
 
+    public static void refreshAfterLogout() {
+        frame.getContentPane().removeAll();
+        contentPanel = new JPanel(new CardLayout());
+        contentPanel.add(new HomePanel(), "Home");
+        contentPanel.add(new AthletePanel(0), "Athletes");
+        contentPanel.add(new EventsPanel(0), "Events"); 
+        
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.setBackground(Color.WHITE);
+        centerPanel.add(contentPanel, BorderLayout.CENTER);
+        frame.add(centerPanel);
+        
+        frame.revalidate();
+        frame.repaint();
+    }
 }
