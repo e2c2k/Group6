@@ -9,6 +9,7 @@ public class Launcher {
     public static JFrame frame; 
     public static JPanel contentPanel;
     public static JPanel announcementsPanel; 
+    public static EventsPanel eventsPanel; 
     
     public static void main(String[] args){
         frame = new JFrame("Track Meet Manager");
@@ -33,7 +34,9 @@ public class Launcher {
 
         contentPanel = new JPanel(new CardLayout());
         contentPanel.add(new HomePanel(), "Home");
-        contentPanel.add(new AthletePanel(0), "Athletes");  
+        contentPanel.add(new AthletePanel(0), "Athletes");
+        eventsPanel = new EventsPanel(0); 
+        contentPanel.add(eventsPanel, "Events"); 
         centerPanel.add(contentPanel, BorderLayout.CENTER);
         
         frame.add(centerPanel);
@@ -89,7 +92,8 @@ public class Launcher {
         contentPanel = new JPanel(new CardLayout());
         contentPanel.add(new HomePanel(), "Home");
         contentPanel.add(new AthletePanel(0), "Athletes");
-        contentPanel.add(new EventsPanel(0), "Events"); 
+        eventsPanel = new EventsPanel(0); 
+        contentPanel.add(eventsPanel, "Events"); 
         
         JPanel centerPanel = new JPanel(new BorderLayout());
         centerPanel.setBackground(Color.WHITE);

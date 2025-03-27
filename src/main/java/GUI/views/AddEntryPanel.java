@@ -5,6 +5,7 @@ import java.awt.*;
 import java.sql.SQLException;
 import Database.EntriesDatabase;
 import GUI.utils.ButtonStyler;
+import GUI.Launcher;
 
 public class AddEntryPanel extends JPanel {
     private JTextField athleteIdField;
@@ -75,6 +76,8 @@ public class AddEntryPanel extends JPanel {
             entriesDB.connect();
             entriesDB.addEntry(athleteId, heatId, eventId, seedTime);
             entriesDB.disconnect();
+
+            Launcher.eventsPanel.showEventDetails("Event " + eventId, eventId);
 
             JOptionPane.showMessageDialog(this, "Entry added successfully!");
             athleteIdField.setText("");

@@ -50,7 +50,9 @@ public class EventsPanel extends JPanel {
                 
                 JButton eventButton = new JButton(eventName + " (" + eventType + ")");
                 ButtonStyler.styleButton(eventButton);
-                eventButton.addActionListener(e -> showEventDetails(eventName, eventId));
+                eventButton.addActionListener(e -> {
+                    showEventDetails(eventName, eventId);
+                });
                 contentPanel.add(eventButton);
             }
             eventsDB.disconnect();
@@ -59,7 +61,7 @@ public class EventsPanel extends JPanel {
         }
     }
 
-    private void showEventDetails(String eventName, int eventId) {
+    public void showEventDetails(String eventName, int eventId) {
         contentPanel.removeAll();
         contentPanel.setLayout(new BorderLayout());
 
@@ -121,7 +123,7 @@ public class EventsPanel extends JPanel {
                 resultsModel.addRow(new Object[]{place, athlete, team, formattedResult});
             }
             
-        entriesDB.disconnect(); 
+            entriesDB.disconnect(); 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error loading data: " + e.getMessage());
         }

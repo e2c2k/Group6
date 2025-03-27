@@ -23,10 +23,11 @@ public class EntriesDatabase extends DataBase {
             throw new SQLException("Database connection is not established. Call connect() first.");
         }
 
-        // Check number of athletes in heat
-        String countSql = "SELECT COUNT(*) as count FROM Entries WHERE heatID = ?";
+        // Check number of athletes in heat for event
+        String countSql = "SELECT COUNT(*) as count FROM Entries WHERE heatID = ? AND eventId = ?";
         PreparedStatement countStmt = conn.prepareStatement(countSql);
         countStmt.setInt(1, heatID);
+        countStmt.setInt(2, eventId);
         ResultSet rs = countStmt.executeQuery();
         
         if (rs.next() && rs.getInt("count") >= 8) {
@@ -185,6 +186,23 @@ public class EntriesDatabase extends DataBase {
         pstmt.setInt(4, eventId);
         pstmt.executeUpdate();
         pstmt.close();
+    }
+
+    // Add this method to check if heat is full for specific event
+    public boolean isHeatFull(int heatId, int eventId) throws SQLException {
+        if (conn == null || conn.isClosed()) {
+            throw new SQLException("Database connection is not established. Call connect() first.");
+        }
+
+        String sql = "SELECT COUNT(*) FROM Entries WHERE heatId = ? AND eventId = ?";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, heatId);
+        pstmt.setInt(2, eventId);
+        ResultSet rs = pstmt.executeQuery();
+        int count = rs.getInt(1);
+        rs.close();
+        pstmt.close();
+        return count >= 8;
     }
 
 }
